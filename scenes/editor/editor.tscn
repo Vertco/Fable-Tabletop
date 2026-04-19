@@ -1,0 +1,248 @@
+[gd_scene format=3 uid="uid://di4shqeay3pxf"]
+
+[ext_resource type="Script" uid="uid://buom7i6sb3wwy" path="res://scenes/editor/editor.gd" id="1_p4a8s"]
+[ext_resource type="Texture2D" uid="uid://d21c6o4dpc1nw" path="res://media/icons/tile_map_dock.svg" id="2_7gtdv"]
+[ext_resource type="Texture2D" uid="uid://cgng8jrk03g8h" path="res://media/icons/edit.svg" id="2_14mad"]
+[ext_resource type="Texture2D" uid="uid://b3qcygqg2m2f8" path="res://media/icons/save.svg" id="2_qnluh"]
+[ext_resource type="Texture2D" uid="uid://cx1qbvefi03pi" path="res://media/icons/play.svg" id="3_i0iqq"]
+[ext_resource type="Script" uid="uid://dqsm8ykiw3uli" path="res://scenes/editor/assets_container.gd" id="5_jwsr6"]
+[ext_resource type="Script" uid="uid://b0is6yvgvb1vw" path="res://scenes/editor/scene_components/scene_tree.gd" id="5_p4u40"]
+[ext_resource type="Script" uid="uid://ckugiwsyofqgm" path="res://scenes/editor/asset_browser.gd" id="5_qbwwq"]
+[ext_resource type="Texture2D" uid="uid://del1s3wlfw7fg" path="res://media/icons/add.svg" id="5_ro56m"]
+[ext_resource type="Script" uid="uid://in05y8she87f" path="res://scenes/editor/scene_components/gm_viewport.gd" id="5_rolao"]
+[ext_resource type="PackedScene" uid="uid://bu34dvllyccp1" path="res://scenes/editor/scene_components/display_selector.tscn" id="6_pq70c"]
+[ext_resource type="Script" uid="uid://bkwkfdy5hs6kw" path="res://scenes/editor/scene_components/campaign_tree.gd" id="6_syr16"]
+[ext_resource type="PackedScene" uid="uid://b1x7lkb6ykwj6" path="res://scenes/editor/scene_components/asset_editor.tscn" id="8_5q5vg"]
+[ext_resource type="Script" uid="uid://o8hkwnn3vg8" path="res://scenes/editor/notification_area.gd" id="13_i3ywb"]
+
+[node name="Editor" type="Control" unique_id=957988038]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_p4a8s")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="." unique_id=1331882665]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 0
+
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer" unique_id=1735442057]
+custom_minimum_size = Vector2(0, 40)
+layout_mode = 2
+
+[node name="MenuBar" type="MenuBar" parent="VBoxContainer/HBoxContainer" unique_id=1651982987]
+custom_minimum_size = Vector2(200, 0)
+layout_mode = 2
+
+[node name="FableMenu" type="MenuButton" parent="VBoxContainer/HBoxContainer/MenuBar" unique_id=1539425162]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 9
+anchor_bottom = 1.0
+offset_right = 8.0
+grow_vertical = 2
+text = "Fable"
+switch_on_hover = true
+item_count = 4
+popup/item_0/text = "Save Fable"
+popup/item_0/icon = ExtResource("2_qnluh")
+popup/item_0/id = 0
+popup/item_1/text = "Convert to Campaign"
+popup/item_1/id = 1
+popup/item_2/text = "New Scene"
+popup/item_2/icon = ExtResource("2_7gtdv")
+popup/item_2/id = 2
+popup/item_3/text = "New Chapter"
+popup/item_3/id = 3
+
+[node name="ModeSelector" type="TabBar" parent="VBoxContainer/HBoxContainer" unique_id=1313093896]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(200, 0)
+layout_mode = 2
+size_flags_horizontal = 6
+current_tab = 0
+tab_alignment = 1
+tab_count = 2
+tab_0/title = "Edit"
+tab_0/icon = ExtResource("2_14mad")
+tab_1/title = "Play"
+tab_1/icon = ExtResource("3_i0iqq")
+tab_1/disabled = true
+
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/HBoxContainer" unique_id=954651890]
+custom_minimum_size = Vector2(200, 0)
+layout_mode = 2
+alignment = 2
+
+[node name="DisplaySelector" parent="VBoxContainer/HBoxContainer/HBoxContainer" unique_id=92899153 node_paths=PackedStringArray("pc_window") instance=ExtResource("6_pq70c")]
+layout_mode = 2
+pc_window = NodePath("../../../../PcWindow")
+
+[node name="MarginContainer" type="MarginContainer" parent="VBoxContainer" unique_id=1692444153]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_constants/margin_left = 2
+theme_override_constants/margin_right = 2
+theme_override_constants/margin_bottom = 2
+
+[node name="HSplitContainer" type="HSplitContainer" parent="VBoxContainer/MarginContainer" unique_id=670180395]
+visibility_layer = 1048575
+layout_mode = 2
+split_offsets = PackedInt32Array(250)
+split_offset = 250
+
+[node name="VSplitContainer3" type="VSplitContainer" parent="VBoxContainer/MarginContainer/HSplitContainer" unique_id=865131576]
+custom_minimum_size = Vector2(250, 0)
+layout_mode = 2
+
+[node name="SceneTree" type="VBoxContainer" parent="VBoxContainer/MarginContainer/HSplitContainer/VSplitContainer3" unique_id=1832665563]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_vertical = 3
+script = ExtResource("5_p4u40")
+
+[node name="LineEdit" type="LineEdit" parent="VBoxContainer/MarginContainer/HSplitContainer/VSplitContainer3/SceneTree" unique_id=1704344015]
+layout_mode = 2
+placeholder_text = "Filter scene"
+
+[node name="Tree" type="Tree" parent="VBoxContainer/MarginContainer/HSplitContainer/VSplitContainer3/SceneTree" unique_id=962653474]
+layout_mode = 2
+size_flags_vertical = 3
+hide_root = true
+scroll_hint_mode = 1
+
+[node name="CampaignTree" type="VBoxContainer" parent="VBoxContainer/MarginContainer/HSplitContainer/VSplitContainer3" unique_id=614015529]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_vertical = 3
+script = ExtResource("6_syr16")
+
+[node name="LineEdit" type="LineEdit" parent="VBoxContainer/MarginContainer/HSplitContainer/VSplitContainer3/CampaignTree" unique_id=207318291]
+layout_mode = 2
+placeholder_text = "Filter campaign"
+
+[node name="Tree" type="Tree" parent="VBoxContainer/MarginContainer/HSplitContainer/VSplitContainer3/CampaignTree" unique_id=953439472]
+layout_mode = 2
+size_flags_vertical = 3
+scroll_hint_mode = 1
+
+[node name="VSplitContainer2" type="VSplitContainer" parent="VBoxContainer/MarginContainer/HSplitContainer" unique_id=1122870732]
+layout_mode = 2
+size_flags_horizontal = 3
+split_offsets = PackedInt32Array(-250)
+split_offset = -250
+
+[node name="GmViewport" type="SubViewportContainer" parent="VBoxContainer/MarginContainer/HSplitContainer/VSplitContainer2" unique_id=1904198415]
+custom_minimum_size = Vector2(400, 200)
+layout_mode = 2
+size_flags_vertical = 3
+stretch = true
+mouse_target = true
+script = ExtResource("5_rolao")
+
+[node name="GmView" type="SubViewport" parent="VBoxContainer/MarginContainer/HSplitContainer/VSplitContainer2/GmViewport" unique_id=2040237315]
+unique_name_in_owner = true
+disable_3d = true
+handle_input_locally = false
+canvas_cull_mask = 4293918721
+size = Vector2i(1014, 416)
+render_target_update_mode = 4
+
+[node name="AssetBrowser" type="FoldableContainer" parent="VBoxContainer/MarginContainer/HSplitContainer/VSplitContainer2" unique_id=1803836270]
+unique_name_in_owner = true
+layout_mode = 2
+title = "Assets"
+title_alignment = 1
+script = ExtResource("5_qbwwq")
+
+[node name="MarginContainer" type="MarginContainer" parent="VBoxContainer/MarginContainer/HSplitContainer/VSplitContainer2/AssetBrowser" unique_id=1644227519]
+layout_mode = 2
+theme_override_constants/margin_left = 2
+theme_override_constants/margin_top = 2
+theme_override_constants/margin_right = 2
+theme_override_constants/margin_bottom = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer/MarginContainer/HSplitContainer/VSplitContainer2/AssetBrowser/MarginContainer" unique_id=729172600]
+layout_mode = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="VBoxContainer/MarginContainer/HSplitContainer/VSplitContainer2/AssetBrowser/MarginContainer/VBoxContainer" unique_id=1839717269]
+layout_mode = 2
+theme_override_constants/margin_left = 2
+theme_override_constants/margin_top = 2
+theme_override_constants/margin_right = 2
+theme_override_constants/margin_bottom = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/MarginContainer/HSplitContainer/VSplitContainer2/AssetBrowser/MarginContainer/VBoxContainer/MarginContainer" unique_id=1199023136]
+custom_minimum_size = Vector2(0, 40)
+layout_mode = 2
+
+[node name="LineEdit" type="LineEdit" parent="VBoxContainer/MarginContainer/HSplitContainer/VSplitContainer2/AssetBrowser/MarginContainer/VBoxContainer/MarginContainer/HBoxContainer" unique_id=2079035060]
+custom_minimum_size = Vector2(250, 0)
+layout_mode = 2
+placeholder_text = "Filter"
+
+[node name="AddAsset" type="Button" parent="VBoxContainer/MarginContainer/HSplitContainer/VSplitContainer2/AssetBrowser/MarginContainer/VBoxContainer/MarginContainer/HBoxContainer" unique_id=901917648]
+layout_mode = 2
+text = "Add"
+icon = ExtResource("5_ro56m")
+
+[node name="ScrollContainer" type="ScrollContainer" parent="VBoxContainer/MarginContainer/HSplitContainer/VSplitContainer2/AssetBrowser/MarginContainer/VBoxContainer" unique_id=1605787834]
+layout_mode = 2
+size_flags_vertical = 3
+scroll_hint_mode = 1
+
+[node name="AssetsContainer" type="HFlowContainer" parent="VBoxContainer/MarginContainer/HSplitContainer/VSplitContainer2/AssetBrowser/MarginContainer/VBoxContainer/ScrollContainer" unique_id=797372812]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+script = ExtResource("5_jwsr6")
+
+[node name="AssetEditor" parent="VBoxContainer/MarginContainer/HSplitContainer/VSplitContainer2/AssetBrowser" unique_id=1532894970 instance=ExtResource("8_5q5vg")]
+unique_name_in_owner = true
+
+[node name="NotificationArea" type="MarginContainer" parent="." unique_id=255072361]
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -251.0
+offset_top = -29.0
+grow_horizontal = 0
+grow_vertical = 0
+theme_override_constants/margin_right = 6
+theme_override_constants/margin_bottom = 6
+script = ExtResource("13_i3ywb")
+
+[node name="NotificationContainer" type="VBoxContainer" parent="NotificationArea" unique_id=1559976167]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="PcWindow" type="Window" parent="." unique_id=852590882]
+unique_name_in_owner = true
+canvas_cull_mask = 4294966272
+oversampling_override = 1.0
+mode = 3
+title = "Fable Tabletop | Players View"
+size = Vector2i(640, 360)
+visible = false
+always_on_top = true
+unfocusable = true
+force_native = true
+
+[node name="PcCam" type="Camera2D" parent="PcWindow" unique_id=1477134487]
+
+[connection signal="tab_changed" from="VBoxContainer/HBoxContainer/ModeSelector" to="." method="_on_mode_selector_tab_changed"]
+[connection signal="button_clicked" from="VBoxContainer/MarginContainer/HSplitContainer/VSplitContainer3/SceneTree/Tree" to="VBoxContainer/MarginContainer/HSplitContainer/VSplitContainer3/SceneTree" method="_on_tree_button_clicked"]
+[connection signal="folding_changed" from="VBoxContainer/MarginContainer/HSplitContainer/VSplitContainer2/AssetBrowser" to="VBoxContainer/MarginContainer/HSplitContainer/VSplitContainer2/AssetBrowser" method="_on_folding_changed"]
+[connection signal="pressed" from="VBoxContainer/MarginContainer/HSplitContainer/VSplitContainer2/AssetBrowser/MarginContainer/VBoxContainer/MarginContainer/HBoxContainer/AddAsset" to="VBoxContainer/MarginContainer/HSplitContainer/VSplitContainer2/AssetBrowser" method="open_asset_editor"]
+[connection signal="updated" from="VBoxContainer/MarginContainer/HSplitContainer/VSplitContainer2/AssetBrowser/AssetEditor" to="VBoxContainer/MarginContainer/HSplitContainer/VSplitContainer2/AssetBrowser" method="load_assets"]

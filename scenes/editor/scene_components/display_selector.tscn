@@ -1,0 +1,95 @@
+[gd_scene format=3 uid="uid://bu34dvllyccp1"]
+
+[ext_resource type="Texture2D" uid="uid://6urlri2cvn48" path="res://media/icons/chevron_down.svg" id="1_6f8ci"]
+[ext_resource type="Script" uid="uid://duleos7o6tkld" path="res://scenes/editor/scene_components/display_selector.gd" id="1_pvy70"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_pvy70"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_dmy7r"]
+
+[node name="DisplaySelector" type="Button" unique_id=92899153]
+custom_minimum_size = Vector2(120, 0)
+offset_right = 120.0
+offset_bottom = 40.0
+flat = true
+script = ExtResource("1_pvy70")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="." unique_id=1771652280]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="MarginContainer2" type="MarginContainer" parent="HBoxContainer" unique_id=42651589]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/margin_left = 4
+theme_override_constants/margin_top = 4
+theme_override_constants/margin_right = 4
+theme_override_constants/margin_bottom = 4
+
+[node name="Preview" type="Panel" parent="HBoxContainer/MarginContainer2" unique_id=1147548429]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(75, 0)
+layout_mode = 2
+size_flags_horizontal = 3
+mouse_filter = 1
+theme_override_styles/panel = SubResource("StyleBoxEmpty_pvy70")
+
+[node name="Label" type="Label" parent="HBoxContainer/MarginContainer2" unique_id=1495758017]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Project..."
+horizontal_alignment = 1
+
+[node name="MarginContainer" type="MarginContainer" parent="HBoxContainer" unique_id=1785429090]
+layout_mode = 2
+size_flags_horizontal = 8
+theme_override_constants/margin_top = 5
+theme_override_constants/margin_right = 5
+theme_override_constants/margin_bottom = 5
+
+[node name="TextureRect" type="TextureRect" parent="HBoxContainer/MarginContainer" unique_id=1261000400]
+layout_mode = 2
+size_flags_horizontal = 3
+texture = ExtResource("1_6f8ci")
+stretch_mode = 5
+
+[node name="SelectionMenu" type="Popup" parent="." unique_id=2012902667]
+unique_name_in_owner = true
+oversampling_override = 1.0
+position = Vector2i(0, 40)
+size = Vector2i(400, 281)
+
+[node name="MarginContainer" type="MarginContainer" parent="SelectionMenu" unique_id=1980927574]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 4
+theme_override_constants/margin_top = 4
+theme_override_constants/margin_right = 4
+theme_override_constants/margin_bottom = 4
+
+[node name="VBoxContainer" type="VBoxContainer" parent="SelectionMenu/MarginContainer" unique_id=1911365462]
+layout_mode = 2
+
+[node name="DisplaySelector" type="Panel" parent="SelectionMenu/MarginContainer/VBoxContainer" unique_id=1493255423]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_styles/panel = SubResource("StyleBoxEmpty_dmy7r")
+
+[node name="ConfirmButton" type="Button" parent="SelectionMenu/MarginContainer/VBoxContainer" unique_id=724930313]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 4
+disabled = true
+text = "Project"
+
+[connection signal="pressed" from="." to="." method="_on_pressed"]
+[connection signal="mouse_exited" from="SelectionMenu" to="." method="_on_selection_menu_mouse_exited"]
+[connection signal="pressed" from="SelectionMenu/MarginContainer/VBoxContainer/ConfirmButton" to="." method="_on_confirmed"]

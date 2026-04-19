@@ -1,0 +1,7 @@
+[gd_scene format=3 uid="uid://rgndpcsbkpvi"]
+
+[ext_resource type="Script" uid="uid://beojytmb11naw" path="res://scenes/editor/scene_components/asset_display.gd" id="1_pj3f6"]
+
+[node name="AssetDisplay" type="Node2D" unique_id=116409075]
+visibility_layer = 1048575
+script = ExtResource("1_pj3f6")

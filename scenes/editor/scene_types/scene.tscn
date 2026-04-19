@@ -1,0 +1,23 @@
+[gd_scene format=3 uid="uid://t8eala4qk0sq"]
+
+[ext_resource type="Script" uid="uid://b3qvg4l8ouk2" path="res://scenes/editor/scene_types/scene.gd" id="1_m38gd"]
+[ext_resource type="Texture2D" uid="uid://c66uqhabpmixa" path="res://media/textures/map_branding.svg" id="2_sc1t3"]
+[ext_resource type="PackedScene" uid="uid://cbn6ycgpm4u5b" path="res://scenes/editor/scene_components/grid_renderer.tscn" id="2_vh41s"]
+[ext_resource type="PackedScene" uid="uid://bup8my73o3ht3" path="res://scenes/editor/scene_components/layer_manager.tscn" id="3_vh41s"]
+
+[node name="Scene" type="Node2D" unique_id=972978831]
+visibility_layer = 1048575
+script = ExtResource("1_m38gd")
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=23585161]
+texture = ExtResource("2_sc1t3")
+
+[node name="LayerManager" parent="." unique_id=1137439149 instance=ExtResource("3_vh41s")]
+unique_name_in_owner = true
+
+[node name="GmGrid" parent="." unique_id=584373409 node_paths=PackedStringArray("camera") instance=ExtResource("2_vh41s")]
+unique_name_in_owner = true
+camera = NodePath("../GmCam")
+
+[node name="GmCam" type="Camera2D" parent="." unique_id=198135144]
+unique_name_in_owner = true

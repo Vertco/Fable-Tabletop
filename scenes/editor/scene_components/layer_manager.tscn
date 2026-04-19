@@ -1,0 +1,8 @@
+[gd_scene format=3 uid="uid://bup8my73o3ht3"]
+
+[ext_resource type="Script" uid="uid://0tn20sj3fw5l" path="res://scenes/editor/scene_components/layer_manager.gd" id="1_3rhrw"]
+
+[node name="LayerManager" type="Node2D" unique_id=1137439149]
+script = ExtResource("1_3rhrw")
+
+[connection signal="child_order_changed" from="." to="." method="_on_child_order_changed"]

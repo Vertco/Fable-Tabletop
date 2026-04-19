@@ -1,0 +1,212 @@
+[gd_scene format=3 uid="uid://ccqsgmlmewjh4"]
+
+[ext_resource type="Script" uid="uid://bncebje5ruhah" path="res://scenes/launcher/scene_components/fable_entry.gd" id="1_2fp3x"]
+[ext_resource type="Texture2D" uid="uid://gina5c5s17gh" path="res://media/icons/non_favorite.svg" id="2_h2he5"]
+[ext_resource type="Texture2D" uid="uid://bmesgdx3mbcvq" path="res://media/icons/favorite.svg" id="3_bhql8"]
+[ext_resource type="Texture2D" uid="uid://tv5roorkhk08" path="res://media/icons/hover_favorite.svg" id="4_skthd"]
+[ext_resource type="Texture2D" uid="uid://cgmga626pp36p" path="res://media/icons/disabled_non_favorite.svg" id="5_wvvk3"]
+[ext_resource type="Texture2D" uid="uid://r2axqenpq8r2" path="res://media/branding/icon.svg" id="6_2fp3x"]
+[ext_resource type="Texture2D" uid="uid://cj6hl186mqwam" path="res://media/icons/campaign.svg" id="7_ncmar"]
+[ext_resource type="Texture2D" uid="uid://dxxwta8yghyi0" path="res://media/icons/load.svg" id="8_7agbt"]
+[ext_resource type="Texture2D" uid="uid://b02x18chf4r8y" path="res://media/icons/warning.svg" id="9_8o0mn"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_nrgoa"]
+bg_color = Color(0.60038817, 0.60038817, 0.60038817, 0.2)
+border_color = Color(0.8001019, 0.8001019, 0.8001019, 0.4)
+corner_radius_top_left = 5
+corner_radius_top_right = 5
+corner_radius_bottom_right = 5
+corner_radius_bottom_left = 5
+
+[sub_resource type="LabelSettings" id="LabelSettings_blrhu"]
+font_size = 20
+
+[sub_resource type="LabelSettings" id="LabelSettings_fec5o"]
+font_size = 12
+font_color = Color(0.5764706, 0.5764706, 0.5764706, 1)
+
+[sub_resource type="LabelSettings" id="LabelSettings_scutc"]
+font_size = 12
+font_color = Color(0.5764706, 0.5764706, 0.5764706, 1)
+
+[sub_resource type="LabelSettings" id="LabelSettings_0r5nc"]
+font_size = 12
+font_color = Color(0.5764706, 0.5764706, 0.5764706, 1)
+
+[sub_resource type="LabelSettings" id="LabelSettings_nrgoa"]
+font_size = 12
+font_color = Color(0.5764706, 0.5764706, 0.5764706, 1)
+
+[node name="CampaignEntry" type="Control" unique_id=1161700234]
+custom_minimum_size = Vector2(0, 100)
+layout_mode = 3
+anchors_preset = 0
+offset_right = 627.0
+offset_bottom = 100.0
+size_flags_horizontal = 3
+script = ExtResource("1_2fp3x")
+
+[node name="Focus" type="Panel" parent="." unique_id=986428875]
+unique_name_in_owner = true
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_nrgoa")
+
+[node name="MarginContainer" type="MarginContainer" parent="." unique_id=36049667]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 2
+theme_override_constants/margin_top = 2
+theme_override_constants/margin_right = 4
+theme_override_constants/margin_bottom = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer" unique_id=2082308584]
+layout_mode = 2
+theme_override_constants/separation = 5
+
+[node name="Control" type="Control" parent="MarginContainer/HBoxContainer" unique_id=298070482]
+custom_minimum_size = Vector2(40, 0)
+layout_mode = 2
+mouse_filter = 1
+
+[node name="Favorite" type="TextureButton" parent="MarginContainer/HBoxContainer/Control" unique_id=927020378]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -8.0
+offset_top = -8.0
+offset_right = 8.0
+offset_bottom = 8.0
+grow_horizontal = 2
+grow_vertical = 2
+tooltip_text = "Coming soon!"
+mouse_filter = 1
+disabled = true
+toggle_mode = true
+texture_normal = ExtResource("2_h2he5")
+texture_pressed = ExtResource("3_bhql8")
+texture_hover = ExtResource("4_skthd")
+texture_disabled = ExtResource("5_wvvk3")
+stretch_mode = 3
+
+[node name="Preview" type="TextureRect" parent="MarginContainer/HBoxContainer" unique_id=132971772]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(90, 90)
+layout_mode = 2
+texture = ExtResource("6_2fp3x")
+expand_mode = 3
+stretch_mode = 4
+
+[node name="MarginContainer" type="MarginContainer" parent="MarginContainer/HBoxContainer/Preview" unique_id=428878949]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 5
+theme_override_constants/margin_top = 5
+theme_override_constants/margin_right = 5
+theme_override_constants/margin_bottom = 5
+
+[node name="TypeIcon" type="TextureRect" parent="MarginContainer/HBoxContainer/Preview/MarginContainer" unique_id=928834308]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 8
+size_flags_vertical = 0
+texture = ExtResource("7_ncmar")
+stretch_mode = 3
+
+[node name="VSeparator" type="VSeparator" parent="MarginContainer/HBoxContainer" unique_id=370182165]
+layout_mode = 2
+mouse_filter = 1
+theme_override_constants/separation = 10
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/HBoxContainer" unique_id=1777880603]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="DisplayName" type="Label" parent="MarginContainer/HBoxContainer/VBoxContainer" unique_id=296710448]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_vertical = 0
+text = "Display Name"
+label_settings = SubResource("LabelSettings_blrhu")
+
+[node name="Description" type="Label" parent="MarginContainer/HBoxContainer/VBoxContainer" unique_id=854134893]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_vertical = 2
+label_settings = SubResource("LabelSettings_fec5o")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/HBoxContainer/VBoxContainer" unique_id=828136627]
+custom_minimum_size = Vector2(0, 20)
+layout_mode = 2
+theme_override_constants/separation = 20
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer" unique_id=1793393115]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="PathButton" type="Button" parent="MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer/HBoxContainer2" unique_id=1070068352]
+layout_mode = 2
+size_flags_horizontal = 0
+mouse_filter = 1
+theme_override_colors/font_color = Color(0.5764706, 0.5764706, 0.5764706, 1)
+theme_override_colors/font_focus_color = Color(0.5764706, 0.5764706, 0.5764706, 1)
+theme_override_colors/font_pressed_color = Color(0.5764706, 0.5764706, 0.5764706, 1)
+theme_override_colors/font_hover_color = Color(0.5764706, 0.5764706, 0.5764706, 1)
+theme_override_colors/font_hover_pressed_color = Color(0.5764706, 0.5764706, 0.5764706, 1)
+theme_override_colors/icon_normal_color = Color(0.5764706, 0.5764706, 0.5764706, 1)
+theme_override_colors/icon_focus_color = Color(0.5764706, 0.5764706, 0.5764706, 1)
+theme_override_colors/icon_pressed_color = Color(0.5764706, 0.5764706, 0.5764706, 1)
+theme_override_colors/icon_hover_color = Color(0.5764706, 0.5764706, 0.5764706, 1)
+theme_override_colors/icon_hover_pressed_color = Color(0.5764706, 0.5764706, 0.5764706, 1)
+theme_override_font_sizes/font_size = 12
+icon = ExtResource("8_7agbt")
+alignment = 0
+
+[node name="Path" type="Label" parent="MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer/HBoxContainer2" unique_id=1727027972]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+label_settings = SubResource("LabelSettings_scutc")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer" unique_id=2128650535]
+layout_mode = 2
+
+[node name="Version" type="Label" parent="MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer/HBoxContainer" unique_id=2079633454]
+unique_name_in_owner = true
+layout_mode = 2
+text = "1.0"
+label_settings = SubResource("LabelSettings_0r5nc")
+
+[node name="VersionMismatch" type="TextureRect" parent="MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer/HBoxContainer" unique_id=1925724488]
+unique_name_in_owner = true
+layout_mode = 2
+texture = ExtResource("9_8o0mn")
+stretch_mode = 5
+
+[node name="Updated" type="Label" parent="MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer" unique_id=1436696278]
+unique_name_in_owner = true
+layout_mode = 2
+text = "07-02-2026 17:14:46"
+label_settings = SubResource("LabelSettings_nrgoa")
+
+[connection signal="gui_input" from="." to="." method="_on_gui_input"]
+[connection signal="mouse_entered" from="." to="." method="_on_mouse_entered"]
+[connection signal="mouse_exited" from="." to="." method="_on_mouse_exited"]
+[connection signal="pressed" from="MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer/HBoxContainer2/PathButton" to="." method="_on_path_pressed"]

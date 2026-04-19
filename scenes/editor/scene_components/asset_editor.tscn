@@ -1,0 +1,89 @@
+[gd_scene format=3 uid="uid://b1x7lkb6ykwj6"]
+
+[ext_resource type="Shader" uid="uid://djohlryjdqhop" path="res://media/shaders/menuBlur.gdshader" id="1_11h4r"]
+[ext_resource type="Script" uid="uid://cc7qwuekan832" path="res://scenes/editor/scene_components/asset_editor.gd" id="1_rrda0"]
+[ext_resource type="Texture2D" uid="uid://dxxwta8yghyi0" path="res://media/icons/load.svg" id="2_rrda0"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_rolao"]
+shader = ExtResource("1_11h4r")
+shader_parameter/blur_amount = 2.0000001899999997
+shader_parameter/mix_amount = 0.50000002375
+shader_parameter/color_over = Color(0, 0, 0, 1)
+
+[node name="AssetEditor" type="CanvasLayer" unique_id=1532894970]
+visible = false
+script = ExtResource("1_rrda0")
+
+[node name="Background" type="Button" parent="." unique_id=1987262474]
+material = SubResource("ShaderMaterial_rolao")
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Window" type="ConfirmationDialog" parent="Background" unique_id=1548044038]
+unique_name_in_owner = true
+oversampling_override = 1.0
+title = "Asset Editor"
+initial_position = 4
+size = Vector2i(500, 300)
+ok_button_text = "Save"
+dialog_hide_on_ok = false
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Background/Window" unique_id=279766586]
+offset_left = 8.0
+offset_top = 8.0
+offset_right = 492.0
+offset_bottom = 251.0
+
+[node name="GridContainer" type="GridContainer" parent="Background/Window/VBoxContainer" unique_id=497658161]
+layout_mode = 2
+theme_override_constants/h_separation = 20
+columns = 2
+
+[node name="Label" type="Label" parent="Background/Window/VBoxContainer/GridContainer" unique_id=18237480]
+layout_mode = 2
+text = "File:"
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Background/Window/VBoxContainer/GridContainer" unique_id=1799336167]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="FilePath" type="LineEdit" parent="Background/Window/VBoxContainer/GridContainer/HBoxContainer" unique_id=858098354]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="FilePicker" type="Button" parent="Background/Window/VBoxContainer/GridContainer/HBoxContainer" unique_id=895360819]
+layout_mode = 2
+icon = ExtResource("2_rrda0")
+
+[node name="ImageFileDialog" type="FileDialog" parent="Background/Window/VBoxContainer/GridContainer/HBoxContainer" unique_id=1774155403]
+unique_name_in_owner = true
+oversampling_override = 1.0
+title = "Open a File"
+initial_position = 4
+file_mode = 0
+access = 2
+filters = PackedStringArray("*webp", "*.png", "*.jpg", "*jpeg")
+use_native_dialog = true
+
+[node name="Label2" type="Label" parent="Background/Window/VBoxContainer/GridContainer" unique_id=506956012]
+layout_mode = 2
+text = "Display name:"
+
+[node name="DisplayName" type="LineEdit" parent="Background/Window/VBoxContainer/GridContainer" unique_id=1744164088]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="AssetPreview" type="TextureRect" parent="Background/Window/VBoxContainer" unique_id=1473574712]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_vertical = 3
+
+[connection signal="pressed" from="Background" to="." method="close_editor"]
+[connection signal="canceled" from="Background/Window" to="." method="close_editor"]
+[connection signal="confirmed" from="Background/Window" to="." method="_on_window_confirmed"]
+[connection signal="pressed" from="Background/Window/VBoxContainer/GridContainer/HBoxContainer/FilePicker" to="." method="_on_file_picker_pressed"]
+[connection signal="file_selected" from="Background/Window/VBoxContainer/GridContainer/HBoxContainer/ImageFileDialog" to="." method="_on_image_file_dialog_file_selected"]

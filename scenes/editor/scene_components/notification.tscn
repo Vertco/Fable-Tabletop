@@ -1,0 +1,40 @@
+[gd_scene format=3 uid="uid://fjjf7rl8cqcp"]
+
+[ext_resource type="Script" uid="uid://ft40d3eb8omb" path="res://scenes/editor/scene_components/notification.gd" id="1_dhpid"]
+[ext_resource type="Texture2D" uid="uid://cbd4iajh4mnjc" path="res://media/icons/status_succes.svg" id="1_hrjk1"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_pq70c"]
+font_size = 12
+font_color = Color(0.5764706, 0.5764706, 0.5764706, 1)
+
+[node name="Notification" type="PanelContainer" unique_id=1832488359]
+custom_minimum_size = Vector2(0, 25)
+size_flags_horizontal = 8
+size_flags_vertical = 8
+script = ExtResource("1_dhpid")
+
+[node name="MarginContainer" type="MarginContainer" parent="." unique_id=887407530]
+layout_mode = 2
+theme_override_constants/margin_left = 2
+theme_override_constants/margin_top = 2
+theme_override_constants/margin_right = 2
+theme_override_constants/margin_bottom = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer" unique_id=928983806]
+layout_mode = 2
+
+[node name="Status" type="TextureRect" parent="MarginContainer/HBoxContainer" unique_id=1197746256]
+unique_name_in_owner = true
+layout_mode = 2
+texture = ExtResource("1_hrjk1")
+stretch_mode = 5
+
+[node name="Message" type="Label" parent="MarginContainer/HBoxContainer" unique_id=748014159]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Success!"
+label_settings = SubResource("LabelSettings_pq70c")
+horizontal_alignment = 2
+vertical_alignment = 1
+
+[connection signal="tree_entered" from="." to="." method="_on_tree_entered"]

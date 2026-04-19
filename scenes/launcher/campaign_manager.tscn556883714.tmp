@@ -1,0 +1,224 @@
+[gd_scene format=3 uid="uid://b4cb0o2tdrbk1"]
+
+[ext_resource type="Theme" uid="uid://xlb6nvbar1gq" path="res://theme.tres" id="1_blrhu"]
+[ext_resource type="Script" uid="uid://crn0bd5of4fms" path="res://scenes/campagin_manager/campaign_manager.gd" id="2_uk33r"]
+[ext_resource type="Texture2D" uid="uid://del1s3wlfw7fg" path="res://media/add.svg" id="3_q5s05"]
+[ext_resource type="Texture2D" uid="uid://dd5ln6hjbnskh" path="res://media/folder_browse.svg" id="4_c2247"]
+[ext_resource type="Texture2D" uid="uid://cgng8jrk03g8h" path="res://media/edit.svg" id="5_33t3q"]
+[ext_resource type="Texture2D" uid="uid://di3m2t7gjl7d" path="res://media/search.svg" id="5_q5s05"]
+[ext_resource type="Texture2D" uid="uid://cx1qbvefi03pi" path="res://media/play.svg" id="6_qetby"]
+[ext_resource type="Texture2D" uid="uid://2l326gakvjxu" path="res://media/rename.svg" id="7_ojsb5"]
+[ext_resource type="Texture2D" uid="uid://be4or84w0b0tj" path="res://media/remove.svg" id="8_nqry0"]
+
+[node name="CampaignManager" type="Control" unique_id=15259096]
+custom_minimum_size = Vector2(480, 360)
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("1_blrhu")
+script = ExtResource("2_uk33r")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="." unique_id=1128475077]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="VBoxContainer" unique_id=2074629357]
+layout_mode = 2
+theme_override_constants/margin_left = 5
+theme_override_constants/margin_top = 5
+theme_override_constants/margin_right = 5
+theme_override_constants/margin_bottom = 5
+
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/MarginContainer" unique_id=553709809]
+layout_mode = 2
+
+[node name="Button" type="Button" parent="VBoxContainer/MarginContainer/HBoxContainer" unique_id=14422724]
+layout_mode = 2
+text = "Logo"
+flat = true
+
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/MarginContainer/HBoxContainer" unique_id=1075676859]
+layout_mode = 2
+size_flags_horizontal = 6
+
+[node name="Button" type="Button" parent="VBoxContainer/MarginContainer/HBoxContainer/HBoxContainer" unique_id=926389759]
+layout_mode = 2
+toggle_mode = true
+button_pressed = true
+text = "Campaigns"
+flat = true
+
+[node name="Button2" type="Button" parent="VBoxContainer/MarginContainer/HBoxContainer/HBoxContainer" unique_id=1484788096]
+layout_mode = 2
+disabled = true
+toggle_mode = true
+text = "Asset Library"
+flat = true
+
+[node name="Button2" type="Button" parent="VBoxContainer/MarginContainer/HBoxContainer" unique_id=395238195]
+layout_mode = 2
+text = "Settings"
+flat = true
+
+[node name="MarginContainer2" type="MarginContainer" parent="VBoxContainer" unique_id=1729846463]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_constants/margin_left = 5
+theme_override_constants/margin_right = 5
+
+[node name="PanelContainer" type="PanelContainer" parent="VBoxContainer/MarginContainer2" unique_id=1020184902]
+layout_mode = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="VBoxContainer/MarginContainer2/PanelContainer" unique_id=537658966]
+layout_mode = 2
+theme_override_constants/margin_left = 5
+theme_override_constants/margin_top = 5
+theme_override_constants/margin_right = 5
+theme_override_constants/margin_bottom = 5
+
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/MarginContainer2/PanelContainer/MarginContainer" unique_id=122336835]
+layout_mode = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer/MarginContainer2/PanelContainer/MarginContainer/HBoxContainer" unique_id=1515832575]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="VBoxContainer/MarginContainer2/PanelContainer/MarginContainer/HBoxContainer/VBoxContainer" unique_id=1518624394]
+custom_minimum_size = Vector2(0, 40)
+layout_mode = 2
+
+[node name="Button" type="Button" parent="VBoxContainer/MarginContainer2/PanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2" unique_id=268759096]
+layout_mode = 2
+text = "Create"
+icon = ExtResource("3_q5s05")
+
+[node name="Button2" type="Button" parent="VBoxContainer/MarginContainer2/PanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2" unique_id=1917145955]
+layout_mode = 2
+text = "Import"
+
+[node name="SelectFolder" type="Button" parent="VBoxContainer/MarginContainer2/PanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2" unique_id=196202263]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Select Folder"
+icon = ExtResource("4_c2247")
+
+[node name="CampaignsBrowser" type="FileDialog" parent="VBoxContainer/MarginContainer2/PanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/SelectFolder" unique_id=614377638]
+unique_name_in_owner = true
+oversampling_override = 1.0
+title = "Select Campaigns Folder"
+file_mode = 2
+display_mode = 1
+access = 2
+use_native_dialog = true
+
+[node name="LineEdit" type="LineEdit" parent="VBoxContainer/MarginContainer2/PanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2" unique_id=1624191970]
+layout_mode = 2
+size_flags_horizontal = 3
+placeholder_text = "Filter Campaigns"
+
+[node name="TextureButton" type="TextureButton" parent="VBoxContainer/MarginContainer2/PanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/LineEdit" unique_id=1640857522]
+layout_mode = 1
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = -40.0
+offset_top = -20.0
+offset_bottom = 20.0
+grow_horizontal = 0
+grow_vertical = 2
+texture_normal = ExtResource("5_q5s05")
+stretch_mode = 3
+
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/MarginContainer2/PanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2" unique_id=1080149542]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="VBoxContainer/MarginContainer2/PanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/HBoxContainer" unique_id=892310198]
+layout_mode = 2
+text = "Sort:"
+
+[node name="SortOption" type="OptionButton" parent="VBoxContainer/MarginContainer2/PanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/HBoxContainer" unique_id=379505447]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+item_count = 1
+popup/item_0/text = "Last Edit"
+popup/item_0/id = 0
+
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/MarginContainer2/PanelContainer/MarginContainer/HBoxContainer/VBoxContainer" unique_id=283542298]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="PanelContainer" type="PanelContainer" parent="VBoxContainer/MarginContainer2/PanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer" unique_id=1569303420]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="MarginContainer" type="MarginContainer" parent="VBoxContainer/MarginContainer2/PanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer/PanelContainer" unique_id=2074662749]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/margin_left = 5
+theme_override_constants/margin_top = 5
+theme_override_constants/margin_right = 5
+theme_override_constants/margin_bottom = 5
+
+[node name="ScrollContainer" type="ScrollContainer" parent="VBoxContainer/MarginContainer2/PanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer/PanelContainer/MarginContainer" unique_id=1661344284]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/scrollbar_h_separation = 5
+theme_override_constants/scrollbar_v_separation = 5
+horizontal_scroll_mode = 0
+vertical_scroll_mode = 2
+scroll_hint_mode = 3
+
+[node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer/MarginContainer2/PanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer" unique_id=929085087]
+custom_minimum_size = Vector2(150, 0)
+layout_mode = 2
+
+[node name="HSeparator" type="HSeparator" parent="VBoxContainer/MarginContainer2/PanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer/VBoxContainer" unique_id=1420094070]
+layout_mode = 2
+
+[node name="Button" type="Button" parent="VBoxContainer/MarginContainer2/PanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer/VBoxContainer" unique_id=1826700559]
+layout_mode = 2
+text = "Edit"
+icon = ExtResource("5_33t3q")
+
+[node name="Button2" type="Button" parent="VBoxContainer/MarginContainer2/PanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer/VBoxContainer" unique_id=961419483]
+layout_mode = 2
+text = "Run
+"
+icon = ExtResource("6_qetby")
+
+[node name="Button3" type="Button" parent="VBoxContainer/MarginContainer2/PanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer/VBoxContainer" unique_id=460242205]
+layout_mode = 2
+text = "Rename"
+icon = ExtResource("7_ojsb5")
+
+[node name="Button4" type="Button" parent="VBoxContainer/MarginContainer2/PanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer/VBoxContainer" unique_id=784428751]
+layout_mode = 2
+text = "Remove"
+icon = ExtResource("8_nqry0")
+
+[node name="MarginContainer3" type="MarginContainer" parent="VBoxContainer" unique_id=1977824936]
+layout_mode = 2
+theme_override_constants/margin_left = 5
+theme_override_constants/margin_right = 5
+theme_override_constants/margin_bottom = 5
+
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/MarginContainer3" unique_id=342498503]
+custom_minimum_size = Vector2(0, 20)
+layout_mode = 2
+size_flags_horizontal = 8
+
+[node name="Label" type="Label" parent="VBoxContainer/MarginContainer3/HBoxContainer" unique_id=1832620387]
+layout_mode = 2
+text = "v1.0.stable.official"
+
+[connection signal="button_up" from="VBoxContainer/MarginContainer2/PanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/SelectFolder" to="." method="_on_select_folder_button_up"]
