@@ -1,4 +1,4 @@
-extends Control
+extends Node
 
 
 enum Mode{
@@ -30,16 +30,17 @@ func _ready() -> void:
 	App.layers_changed.connect(update_cull_mask)
 	DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_MAXIMIZED)
 	%FableMenu.get_popup().connect("id_pressed",_on_fable_menu_id_pressed)
-	%PcWindow.world_2d = %GmView.get_world_2d()
+	%GmView.world_2d = %SceneRoot.get_world_2d()
+	%PcView.world_2d = %SceneRoot.get_world_2d()
 	if App.selected_fables:
 		fable_path = App.selected_fables[0]
 
 
-func update_cull_mask(_active_layer: int, visible_layers: Array[int]):
-	%GmView.set_canvas_cull_mask(0)
-	%GmView.set_canvas_cull_mask_bit(0, true)
-	for layer in visible_layers:
-		%GmView.set_canvas_cull_mask_bit(layer, true)
+func update_cull_mask(_active_layer: int, _visible_layers: Array[int]):
+	%SceneRoot.set_canvas_cull_mask(0)
+	%SceneRoot.set_canvas_cull_mask_bit(0, true)
+	for layer in _visible_layers:
+		%SceneRoot.set_canvas_cull_mask_bit(layer, true)
 
 
 func load_fable() -> Error:
@@ -81,7 +82,7 @@ func load_fable() -> Error:
 					fable = ResourceLoader.load("user://current/scenes/"+App.selected_fables[0].get_file().rsplit(".")[0]+".tres")
 					var new_scene := scene.instantiate()
 					new_scene.scene = fable
-					%GmView.add_child(new_scene)
+					%SceneRoot.add_child(new_scene)
 					%AssetBrowser.load_assets()
 					%SceneTree.scene = new_scene
 	return result
@@ -89,7 +90,7 @@ func load_fable() -> Error:
 
 func save_fable() -> void: # TODO Add support for campaigns
 	var new_scene := Scene.new()
-	for layer in %GmView.get_node("Scene/LayerManager").get_children():
+	for layer in %SceneRoot.get_node("Scene/LayerManager").get_children():
 		new_scene.layers.append(layer.save())
 	new_scene.title = fable.title
 	new_scene.updated_date_time = Time.get_datetime_dict_from_system()
