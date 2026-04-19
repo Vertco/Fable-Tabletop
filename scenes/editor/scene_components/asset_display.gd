@@ -10,11 +10,15 @@ extends Node2D
 	set(value):
 		for layer in range(0,10):
 			set_visibility_layer_bit(layer,value)
+			for child in get_children():
+				child.set_visibility_layer_bit(layer,value)
 		gm_vis = value
 @export var player_vis := true:
 	set(value):
 		for layer in range(11,20):
 			set_visibility_layer_bit(layer,value)
+			for child in get_children():
+				child.set_visibility_layer_bit(layer,value)
 		player_vis = value
 
 
@@ -66,6 +70,10 @@ func image_asset() -> void:
 	var sprite := Sprite2D.new()
 	var image := Image.load_from_file(asset.texture)
 	sprite.texture = ImageTexture.create_from_image(image)
+	for layer in range(0,10):
+		sprite.set_visibility_layer_bit(layer,gm_vis)
+	for layer in range(11,20):
+		sprite.set_visibility_layer_bit(layer,player_vis)
 	add_child(sprite)
 
 

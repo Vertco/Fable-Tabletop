@@ -10,14 +10,13 @@ visibility_layer = 1048575
 script = ExtResource("1_m38gd")
 
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=23585161]
+visibility_layer = 1025
 texture = ExtResource("2_sc1t3")
 
 [node name="LayerManager" parent="." unique_id=1137439149 instance=ExtResource("3_vh41s")]
 unique_name_in_owner = true
+visibility_layer = 1048575
 
 [node name="GmGrid" parent="." unique_id=584373409 node_paths=PackedStringArray("camera") instance=ExtResource("2_vh41s")]
 unique_name_in_owner = true
-camera = NodePath("../GmCam")
-
-[node name="GmCam" type="Camera2D" parent="." unique_id=198135144]
-unique_name_in_owner = true
+camera = NodePath("")
