@@ -2,6 +2,7 @@
 
 [ext_resource type="Texture2D" uid="uid://6urlri2cvn48" path="res://media/icons/chevron_down.svg" id="1_6f8ci"]
 [ext_resource type="Script" uid="uid://duleos7o6tkld" path="res://scenes/editor/scene_components/display_selector.gd" id="1_pvy70"]
+[ext_resource type="Texture2D" uid="uid://cwgq8y4rygcmm" path="res://media/icons/modifiers.svg" id="3_dmy7r"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_pvy70"]
 
@@ -83,13 +84,21 @@ layout_mode = 2
 size_flags_vertical = 3
 theme_override_styles/panel = SubResource("StyleBoxEmpty_dmy7r")
 
-[node name="ConfirmButton" type="Button" parent="SelectionMenu/MarginContainer/VBoxContainer" unique_id=724930313]
+[node name="HBoxContainer" type="HBoxContainer" parent="SelectionMenu/MarginContainer/VBoxContainer" unique_id=731525824]
+layout_mode = 2
+alignment = 1
+
+[node name="ConfirmButton" type="Button" parent="SelectionMenu/MarginContainer/VBoxContainer/HBoxContainer" unique_id=724930313]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 4
 disabled = true
 text = "Project"
 
+[node name="Button" type="Button" parent="SelectionMenu/MarginContainer/VBoxContainer/HBoxContainer" unique_id=604368654]
+layout_mode = 2
+icon = ExtResource("3_dmy7r")
+
 [connection signal="pressed" from="." to="." method="_on_pressed"]
 [connection signal="mouse_exited" from="SelectionMenu" to="." method="_on_selection_menu_mouse_exited"]
-[connection signal="pressed" from="SelectionMenu/MarginContainer/VBoxContainer/ConfirmButton" to="." method="_on_confirmed"]
+[connection signal="pressed" from="SelectionMenu/MarginContainer/VBoxContainer/HBoxContainer/ConfirmButton" to="." method="_on_confirmed"]

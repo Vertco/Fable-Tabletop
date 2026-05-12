@@ -1,6 +1,9 @@
 extends Node
 
 
+signal fable_changed(new:Resource)
+
+
 enum Mode{
 	EDIT,
 	PLAY
@@ -22,7 +25,10 @@ enum Mode{
 			TYPE_STRING:
 				mode = Mode.find_key(value) as Mode
 		update_titlebar()
-@export var fable: Resource
+@export var fable: Resource:
+	set(value):
+		emit_signal("fable_changed",value)
+		fable = value
 
 
 func _ready() -> void:
@@ -46,14 +52,15 @@ func update_cull_mask(_active_layer: int, _visible_layers: Array[int]):
 func load_fable() -> Error:
 	var result := Error.OK
 	var current: DirAccess
-	if DirAccess.dir_exists_absolute("user://current"):
-		print("Recover Fable?") #TODO Implement recovery system
-	# Unpack ftt file
-	else:
-		current = DirAccess.open("user://")
+	current = DirAccess.open("user://")
+	if !App.recover:
+		# Unpack ftt file
 		result = current.make_dir("current")
 		if !result:
 			current.change_dir("current")
+			var path_file := FileAccess.open(App.current_dir + "\\path",FileAccess.WRITE)
+			path_file.store_string(fable_path)
+			path_file.close()
 			var reader := ZIPReader.new()
 			result = reader.open(fable_path)
 			if !result:
@@ -73,19 +80,25 @@ func load_fable() -> Error:
 								print(error_string(FileAccess.get_open_error()))
 							var data:PackedByteArray = reader.read_file(file)
 							file_access.store_buffer(data)
-			# Load resources
-			result = validate_fable()
-			if !result:
-				if current.file_exists("campaign.tres"):
-					print("This fable is a campaign!") #TODO implement campaign loading
-				elif current.file_exists("scenes/"+App.selected_fables[0].get_file().rsplit(".")[0]+".tres"):
-					fable = ResourceLoader.load("user://current/scenes/"+App.selected_fables[0].get_file().rsplit(".")[0]+".tres")
-					var new_scene := scene.instantiate()
-					new_scene.scene = fable
-					%SceneRoot.add_child(new_scene)
-					%AssetBrowser.load_assets()
-					%SceneTree.scene = new_scene
+				load_fable_resources(current)
+	else:
+		current.change_dir("current")
+		load_fable_resources(current)
 	return result
+
+
+func load_fable_resources(current:DirAccess) -> void:
+	var result = validate_fable()
+	if !result:
+		if current.file_exists("campaign.tres"):
+			print("This fable is a campaign!") #TODO implement campaign loading
+		elif current.file_exists("scenes/"+App.selected_fables[0].get_file().rsplit(".")[0]+".tres"):
+			fable = ResourceLoader.load("user://current/scenes/"+App.selected_fables[0].get_file().rsplit(".")[0]+".tres")
+			var new_scene := scene.instantiate()
+			new_scene.scene = fable
+			%SceneRoot.add_child(new_scene)
+			%AssetBrowser.load_assets()
+			%SceneTree.scene = new_scene
 
 
 func save_fable() -> void: # TODO Add support for campaigns
@@ -131,11 +144,11 @@ func _notification(what):
 		var confirm = await App.confirmation
 		if confirm[0]:
 			if confirm[1] == &"discard":
-				App.delete_recursive("user://current")
+				App.delete_recursive(App.current_dir)
 				get_tree().quit()
 			else:
 				save_fable()
-				App.delete_recursive("user://current")
+				App.delete_recursive(App.current_dir)
 				get_tree().quit()
 
 

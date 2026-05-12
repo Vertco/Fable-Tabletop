@@ -39,9 +39,10 @@ var visible_layers: Array[int] = [1]:
 
 
 var canvas: CanvasLayer
-var gm_zoom: float
+var gm_zoom: float = 1
 var temp_files: PackedStringArray
 var pc_display: int = 99
+var recover := false
 
 
 func create_scene(title:String,_description:String="",_campaign:String="",_chapter:String="") -> Error:
@@ -179,7 +180,7 @@ custom_button_right:bool=false,custom_action:String="") -> void:
 	if get_viewport().get_camera_2d():
 		get_viewport().get_camera_2d().add_child(canvas)
 	else:
-		get_tree().root.add_child(canvas)
+		get_tree().root.add_child.call_deferred(canvas)
 	
 	# Reset gui_embed_subwindows to default
 	get_window().gui_embed_subwindows = ProjectSettings.get_setting("display/window/subwindows/embed_subwindows")

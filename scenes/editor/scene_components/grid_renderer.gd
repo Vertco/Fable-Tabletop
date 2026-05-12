@@ -30,7 +30,7 @@ func _draw():
 		var zoom_factor: float = clamp(
 			(zoom.x - min_zoom) / (max_zoom - min_zoom),
 			0.0,
-			1.0
+			0.6
 		)
 		var normal_color := base_color
 		normal_color.a *= zoom_factor

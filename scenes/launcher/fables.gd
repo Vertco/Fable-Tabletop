@@ -10,10 +10,28 @@ extends Control
 func _ready() -> void:
 	%Version.text = "v" + ProjectSettings.get_setting("application/config/version")
 	Prefs.prefs_updated.connect(prefs_updated)
+	App.recover = false
 	if Prefs.fables_location:
 		load_fables()
 	else:
 		%FablesBrowser.popup()
+	check_recovery()
+
+
+func check_recovery() -> void:
+	if DirAccess.dir_exists_absolute(App.current_dir):
+		App.confirm("Found a previous fable.
+		Recover this fable?",\
+		"Recover previous?","Recover","Ignore")
+		var confirm = await App.confirmation
+		if confirm[0] == true:
+			var ftt:String = FileAccess.get_file_as_string(App.current_dir + "\\path")
+			App.selected_fables.clear()
+			App.selected_fables.append(ftt)
+			App.recover = true
+			get_tree().change_scene_to_file("uid://di4shqeay3pxf")
+		else:
+			App.delete_recursive(App.current_dir)
 
 
 func prefs_updated(pref:String) -> void:

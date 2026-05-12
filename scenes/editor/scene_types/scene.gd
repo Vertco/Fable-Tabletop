@@ -26,4 +26,17 @@ func add_asset(_asset_position: Vector2, data: Variant, layer: int = 99) -> void
 		%LayerManager.get_children()[App.active_layer-1].add_child(instance)
 	else:
 		%LayerManager.get_children()[layer].add_child(instance)
-	instance.position = get_global_mouse_position()
+	instance.position = _asset_position
+
+
+func get_assets_at(at_position:Vector2) -> Array[Node]:
+	var nodes:Array[Node]
+	for layer in %LayerManager.get_children():
+		for node in layer.get_children():
+			if node.type in ["ImageAsset", "TokenAsset"] &&\
+			!node.locked:
+				if node.get_rect().has_point(at_position) &&\
+				node.is_pixel_opaque(node.to_local(at_position)):
+					nodes.append(node)
+	nodes.reverse()
+	return nodes

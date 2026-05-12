@@ -1,4 +1,5 @@
 extends Node2D
+class_name AssetDisplay
 
 
 @export var asset: Asset:
@@ -20,6 +21,18 @@ extends Node2D
 			for child in get_children():
 				child.set_visibility_layer_bit(layer,value)
 		player_vis = value
+@export var selected := false:
+	set(value):
+		if value:
+			add_to_group("selected_assets")
+			selected = value
+			modulate = Color(0.5, 0.5, 0.5, 1)
+		else:
+			remove_from_group("selected_assets")
+			selected = value
+			modulate = Color.WHITE
+	get:
+		return is_in_group("selected_assets")
 
 
 var type: String
@@ -51,7 +64,10 @@ func edit(field:String, value:Variant = null) -> void:
 		"ImageAsset":
 			match field:
 				"lock":
-					pass
+					if value:
+						locked = value
+					else:
+						locked = !locked
 				"gm_vis":
 					if value:
 						gm_vis = value
@@ -64,6 +80,24 @@ func edit(field:String, value:Variant = null) -> void:
 						player_vis = !player_vis
 		"TokenAsset":
 			pass
+
+
+func get_rect() -> Rect2:
+	var rect:Rect2= get_children()[0].get_rect()
+	rect.position = to_global(rect.position)
+	return rect
+
+
+func is_pixel_opaque(pos:Vector2) -> bool:
+	return get_children()[0].is_pixel_opaque(pos)
+
+
+func select() -> void:
+	selected = true
+
+
+func deselect() -> void:
+	selected = false
 
 
 func image_asset() -> void:

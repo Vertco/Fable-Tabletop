@@ -17,6 +17,5 @@ texture = ExtResource("2_sc1t3")
 unique_name_in_owner = true
 visibility_layer = 1048575
 
-[node name="GmGrid" parent="." unique_id=584373409 node_paths=PackedStringArray("camera") instance=ExtResource("2_vh41s")]
+[node name="GmGrid" parent="." unique_id=584373409 instance=ExtResource("2_vh41s")]
 unique_name_in_owner = true
-camera = NodePath("")

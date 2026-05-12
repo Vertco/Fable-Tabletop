@@ -3,7 +3,6 @@ class_name Layer
 
 @export var scene_layer: SceneLayer:
 	set(value):
-		active = value.active
 		scene_layer = value
 		update()
 @export var layer_id: int:
@@ -20,6 +19,7 @@ class_name Layer
 		set_visibility_layer_bit(layer_id+11,value)
 		player_vis = value
 
+
 var grid := preload("uid://cbn6ycgpm4u5b")
 var type := "Layer"
 var active: bool
@@ -29,6 +29,7 @@ func update() -> void:
 	name = scene_layer.name
 	gm_vis = scene_layer.gm_vis
 	player_vis = scene_layer.player_vis
+	active = scene_layer.active
 	for asset in scene_layer.assets:
 		var packed_scene = preload("uid://rgndpcsbkpvi") # asset_display
 		var display = packed_scene.instantiate()
@@ -47,6 +48,7 @@ func save() -> SceneLayer:
 	result.name = name
 	result.gm_vis = gm_vis
 	result.player_vis = player_vis
+	result.active = active
 	for asset_display in get_children():
 		result.assets.append(asset_display.save())
 	return result
@@ -54,8 +56,11 @@ func save() -> SceneLayer:
 
 func edit(field:String, value:Variant = null) -> void:
 	match field:
-		"lock":
-			pass
+		"active":
+			if value != null:
+				active = value
+			else:
+				active = !active
 		"gm_vis":
 			if value:
 				gm_vis = value

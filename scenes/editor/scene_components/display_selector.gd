@@ -35,7 +35,9 @@ func update() -> void:
 func check_overlap() -> bool:
 	var pc_rect := Rect2i(pc_window.position, pc_window.size)
 	var gm_rect := Rect2i(get_window().position, get_window().size)
-	if pc_rect.intersects(gm_rect) && pc_window.visible:
+	@warning_ignore("integer_division")
+	if pc_rect.intersects(gm_rect) && pc_window.visible \
+	&& pc_rect.intersection(gm_rect).get_area() > gm_rect.get_area()/2:
 		return false
 	else:
 		return true
