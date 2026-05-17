@@ -2,6 +2,7 @@ extends Control
 
 
 signal new_scene_pressed
+signal selection_changed
 
 
 @onready var scene: Node:
@@ -43,6 +44,7 @@ func update() -> void:
 				var tree_asset:TreeItem = tree.create_item(tree_layer)
 				tree_asset.set_text(0,asset.asset.name)
 				tree_asset.set_metadata(0,asset)
+				tree_asset.set_selectable(0,!asset.locked)
 				var type:String = asset.asset.get_script().get_global_name()
 				match type:
 					"ImageAsset":
@@ -130,6 +132,7 @@ func _on_tree_button_clicked(item: TreeItem, _column: int, id: int, _mouse_butto
 				0:
 					await metadata.edit("lock")
 					item.set_button(0,0,get_locked_icon(metadata.locked))
+					item.set_selectable(0,!metadata.locked)
 				1:
 					await metadata.edit("gm_vis")
 					item.set_button(0,1,get_vis_icon(metadata.gm_vis))
@@ -162,6 +165,7 @@ func _on_tree_multi_selected(item: TreeItem, column: int, selected: bool) -> voi
 					metadata.select()
 				else:
 					metadata.deselect()
+	emit_signal("selection_changed")
 
 
 func _on_tree_nothing_selected() -> void:

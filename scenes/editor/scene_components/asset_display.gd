@@ -26,11 +26,11 @@ class_name AssetDisplay
 		if value:
 			add_to_group("selected_assets")
 			selected = value
-			modulate = Color(0.5, 0.5, 0.5, 1)
+			#modulate = Color(0.5, 0.5, 0.5, 1)
 		else:
 			remove_from_group("selected_assets")
 			selected = value
-			modulate = Color.WHITE
+			#modulate = Color.WHITE
 	get:
 		return is_in_group("selected_assets")
 

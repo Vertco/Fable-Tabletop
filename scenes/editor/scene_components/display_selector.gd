@@ -160,10 +160,14 @@ func _on_selection_menu_mouse_exited() -> void:
 
 func _on_confirmed() -> void:
 	if pc_window.visible:
-		pc_window.hide()
 		%SelectionMenu.hide()
-		App.notify(App.StatusState.INFO,"Stopped projecting")
-		update()
+		App.confirm("Do you want to stop projecting?","Stop projecting?",\
+		"Stop","Cancel")
+		var confirm = await App.confirmation
+		if confirm[0]:
+			pc_window.hide()
+			App.notify(App.StatusState.INFO,"Stopped projecting")
+			update()
 	else:
 		var global_pos = DisplayServer.screen_get_position(App.pc_display)
 		pc_window.set_position(global_pos)

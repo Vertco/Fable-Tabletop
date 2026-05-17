@@ -25,7 +25,7 @@ func _draw():
 		
 		# Calculate line color
 		var base_color := Color("#00000080")
-		var min_zoom := 0.1
+		var min_zoom := 0.17
 		var max_zoom := 0.3
 		var zoom_factor: float = clamp(
 			(zoom.x - min_zoom) / (max_zoom - min_zoom),
