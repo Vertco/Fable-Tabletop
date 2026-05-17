@@ -272,8 +272,11 @@ unique_name_in_owner = true
 visibility_layer = 1047552
 camera = NodePath("../PcCam")
 
+[connection signal="child_order_changed" from="SceneRoot" to="VBoxContainer/MarginContainer/HSplitContainer/VSplitContainer2/Panel/GmViewport" method="update_scene"]
 [connection signal="tab_changed" from="VBoxContainer/HBoxContainer/ModeSelector" to="." method="_on_mode_selector_tab_changed"]
 [connection signal="selection_changed" from="VBoxContainer/MarginContainer/HSplitContainer/VSplitContainer3/SceneTree" to="VBoxContainer/MarginContainer/HSplitContainer/VSplitContainer2/Panel" method="update"]
+[connection signal="mouse_entered" from="VBoxContainer/MarginContainer/HSplitContainer/VSplitContainer2/Panel/GmViewport" to="VBoxContainer/MarginContainer/HSplitContainer/VSplitContainer2/Panel/GmViewport" method="_on_mouse_entered"]
+[connection signal="mouse_exited" from="VBoxContainer/MarginContainer/HSplitContainer/VSplitContainer2/Panel/GmViewport" to="VBoxContainer/MarginContainer/HSplitContainer/VSplitContainer2/Panel/GmViewport" method="_on_mouse_exited"]
 [connection signal="selection_changed" from="VBoxContainer/MarginContainer/HSplitContainer/VSplitContainer2/Panel/GmViewport" to="VBoxContainer/MarginContainer/HSplitContainer/VSplitContainer3/SceneTree" method="update"]
 [connection signal="selection_changed" from="VBoxContainer/MarginContainer/HSplitContainer/VSplitContainer2/Panel/GmViewport" to="VBoxContainer/MarginContainer/HSplitContainer/VSplitContainer2/Panel" method="update"]
 [connection signal="folding_changed" from="VBoxContainer/MarginContainer/HSplitContainer/VSplitContainer2/AssetBrowser" to="VBoxContainer/MarginContainer/HSplitContainer/VSplitContainer2/AssetBrowser" method="_on_folding_changed"]

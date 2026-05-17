@@ -18,51 +18,84 @@ var asset_drag := false
 var was_dragging_asset := false
 var was_multi_select := false
 var last_single_select_stack: Array[int] = []
+var focus := false
+var undo_redo:UndoRedo
+
+
+func update_scene() -> void:
+	undo_redo = %SceneRoot.get_node("./Scene").undo_redo
 
 
 func _unhandled_input(event: InputEvent) -> void:
-	if event.is_action_pressed("mouse_pan"):
+	if focus:
+		if event.is_action_released("ui_undo"):
+			undo_redo.undo()
+		elif event.is_action_released("ui_redo"):
+			undo_redo.redo()
+		elif event.is_action_released("asset_delete"):
+			undo_redo.create_action("Delete assets")
+			var assets:Array[Node] = get_tree().get_nodes_in_group("selected_assets")
+			for asset in assets:
+				undo_redo.add_undo_reference(asset)
+				undo_redo.add_undo_reference(asset.get_parent())
+				undo_redo.add_do_method(asset.get_parent().remove_child.bind(asset))
+				undo_redo.add_undo_method(asset.get_parent().add_child.bind(asset))
+				undo_redo.add_undo_method(asset.get_parent().move_child.bind(asset,asset.get_index()))
+			undo_redo.commit_action()
+	
+	if event.is_action_pressed("cam_pan"):
 		cam_pan = true
-	elif event.is_action_released("mouse_pan"):
+	elif event.is_action_released("cam_pan"):
 		cam_pan = false
-	if event.is_action_pressed("mouse_multi_select"):
+	
+	var over_selected := false
+	var pos: Vector2 = %GmView.get_canvas_transform().affine_inverse() * %GmView.get_mouse_position()
+	var nodes: Array = %SceneRoot.get_node("Scene").get_assets_at(pos)
+	for node in nodes:
+		if node.selected:
+			over_selected = true
+	if event.is_action_pressed("asset_multi_select"):
 		select(true)
 		was_multi_select = true
-	elif event.is_action_pressed("mouse_select"):
-		var over_selected := false
-		var pos: Vector2 = %GmView.get_canvas_transform().affine_inverse() * %GmView.get_mouse_position()
-		var nodes: Array = %SceneRoot.get_node("Scene").get_assets_at(pos)
-		for node in nodes:
-			if node.selected:
-				over_selected = true
+	elif event.is_action_pressed("asset_select"):
 		if over_selected:
 			asset_drag = true
+			undo_redo.create_action("Move assets")
+			for asset in get_tree().get_nodes_in_group("selected_assets"):
+				undo_redo.add_undo_property(asset,"position",asset.position)
 			Input.set_default_cursor_shape(Input.CURSOR_DRAG)
-	elif event.is_action_released("mouse_select"):
+	elif event.is_action_released("asset_select"):
 		asset_drag = false
+		for asset in get_tree().get_nodes_in_group("selected_assets"):
+			undo_redo.add_do_property(asset,"position",asset.position)
 		Input.set_default_cursor_shape(Input.CURSOR_ARROW)
 		if was_dragging_asset:
 			was_dragging_asset = false
+			undo_redo.commit_action(false)
 		elif was_multi_select:
 			was_multi_select = false
 			return
 		else:
 			select()
-	elif event.is_action_pressed("cam_zoom_in"):
+	
+	if event.is_action_pressed("cam_zoom_in"):
 		update_gm_zoom(gm_zoom_incr)
 	elif event.is_action_pressed("cam_zoom_out"):
 		update_gm_zoom(-gm_zoom_incr)
-	elif event is InputEventMouseMotion:
+	
+	if event is InputEventMouseMotion:
 		if cam_pan:
 			var new_offset = %GmCam.get_offset() - event.relative/gm_zoom
 			new_offset.x = new_offset.x
 			new_offset.y = new_offset.y
 			%GmCam.set_offset(new_offset)
 			%GmGrid.queue_redraw()
-		elif asset_drag:
-			was_dragging_asset = true
+		elif asset_drag and over_selected:
 			for asset in get_tree().get_nodes_in_group("selected_assets"):
-				asset.position = asset.position+event.relative/gm_zoom
+				var og_pos:Vector2 = asset.position
+				asset.position = og_pos+event.relative/gm_zoom
+				if og_pos != asset.position:
+					was_dragging_asset = true
 
 
 func get_asset_ids(nodes: Array) -> Array[int]:
@@ -162,3 +195,11 @@ func _can_drop_data(_at_position: Vector2, data: Variant) -> bool:
 func _drop_data(_at_position: Vector2, data: Variant) -> void:
 	var pos = %GmView.get_canvas_transform().affine_inverse() * %GmView.get_mouse_position()
 	%SceneRoot.get_node("Scene").add_asset(pos, data)
+
+
+func _on_mouse_entered() -> void:
+	focus = true
+
+
+func _on_mouse_exited() -> void:
+	focus = false

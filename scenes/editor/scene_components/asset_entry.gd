@@ -94,9 +94,9 @@ func _on_mouse_exited() -> void:
 
 func _on_gui_input(event: InputEvent) -> void:
 	if data:
-		if event.is_action_pressed("mouse_multi_select"):
+		if event.is_action_pressed("ui_multi_select"):
 			emit_signal("multi_select",self)
-		elif event.is_action_pressed("mouse_select"):
+		elif event.is_action_pressed("ui_select"):
 			if event.double_click:
 				emit_signal("open",data)
 			else:
