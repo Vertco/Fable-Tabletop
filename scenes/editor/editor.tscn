@@ -5,7 +5,6 @@
 [ext_resource type="Texture2D" uid="uid://cgng8jrk03g8h" path="res://media/icons/edit.svg" id="2_14mad"]
 [ext_resource type="Texture2D" uid="uid://b3qcygqg2m2f8" path="res://media/icons/save.svg" id="2_qnluh"]
 [ext_resource type="Texture2D" uid="uid://cx1qbvefi03pi" path="res://media/icons/play.svg" id="3_i0iqq"]
-[ext_resource type="Script" uid="uid://dqsm8ykiw3uli" path="res://scenes/editor/assets_container.gd" id="5_jwsr6"]
 [ext_resource type="Script" uid="uid://ckugiwsyofqgm" path="res://scenes/editor/asset_browser.gd" id="5_qbwwq"]
 [ext_resource type="Texture2D" uid="uid://del1s3wlfw7fg" path="res://media/icons/add.svg" id="5_ro56m"]
 [ext_resource type="Script" uid="uid://in05y8she87f" path="res://scenes/editor/scene_components/gm_viewport.gd" id="5_rolao"]
@@ -195,7 +194,8 @@ theme_override_constants/margin_bottom = 2
 custom_minimum_size = Vector2(0, 40)
 layout_mode = 2
 
-[node name="LineEdit" type="LineEdit" parent="VBoxContainer/MarginContainer/HSplitContainer/VSplitContainer2/AssetBrowser/MarginContainer/VBoxContainer/MarginContainer/HBoxContainer" unique_id=2079035060]
+[node name="AssetsFilter" type="LineEdit" parent="VBoxContainer/MarginContainer/HSplitContainer/VSplitContainer2/AssetBrowser/MarginContainer/VBoxContainer/MarginContainer/HBoxContainer" unique_id=2079035060]
+unique_name_in_owner = true
 custom_minimum_size = Vector2(250, 0)
 layout_mode = 2
 placeholder_text = "Filter"
@@ -215,7 +215,6 @@ unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
-script = ExtResource("5_jwsr6")
 
 [node name="AssetEditor" parent="VBoxContainer/MarginContainer/HSplitContainer/VSplitContainer2/AssetBrowser" unique_id=1532894970 instance=ExtResource("8_5q5vg")]
 unique_name_in_owner = true
@@ -280,5 +279,9 @@ camera = NodePath("../PcCam")
 [connection signal="selection_changed" from="VBoxContainer/MarginContainer/HSplitContainer/VSplitContainer2/Panel/GmViewport" to="VBoxContainer/MarginContainer/HSplitContainer/VSplitContainer3/SceneTree" method="update"]
 [connection signal="selection_changed" from="VBoxContainer/MarginContainer/HSplitContainer/VSplitContainer2/Panel/GmViewport" to="VBoxContainer/MarginContainer/HSplitContainer/VSplitContainer2/Panel" method="update"]
 [connection signal="folding_changed" from="VBoxContainer/MarginContainer/HSplitContainer/VSplitContainer2/AssetBrowser" to="VBoxContainer/MarginContainer/HSplitContainer/VSplitContainer2/AssetBrowser" method="_on_folding_changed"]
+[connection signal="mouse_entered" from="VBoxContainer/MarginContainer/HSplitContainer/VSplitContainer2/AssetBrowser" to="VBoxContainer/MarginContainer/HSplitContainer/VSplitContainer2/AssetBrowser" method="_on_mouse_entered"]
+[connection signal="mouse_exited" from="VBoxContainer/MarginContainer/HSplitContainer/VSplitContainer2/AssetBrowser" to="VBoxContainer/MarginContainer/HSplitContainer/VSplitContainer2/AssetBrowser" method="_on_mouse_exited"]
+[connection signal="gui_input" from="VBoxContainer/MarginContainer/HSplitContainer/VSplitContainer2/AssetBrowser/MarginContainer" to="VBoxContainer/MarginContainer/HSplitContainer/VSplitContainer2/AssetBrowser" method="_on_gui_input"]
+[connection signal="text_changed" from="VBoxContainer/MarginContainer/HSplitContainer/VSplitContainer2/AssetBrowser/MarginContainer/VBoxContainer/MarginContainer/HBoxContainer/AssetsFilter" to="VBoxContainer/MarginContainer/HSplitContainer/VSplitContainer2/AssetBrowser" method="filter_assets"]
 [connection signal="pressed" from="VBoxContainer/MarginContainer/HSplitContainer/VSplitContainer2/AssetBrowser/MarginContainer/VBoxContainer/MarginContainer/HBoxContainer/AddAsset" to="VBoxContainer/MarginContainer/HSplitContainer/VSplitContainer2/AssetBrowser" method="open_asset_editor"]
 [connection signal="updated" from="VBoxContainer/MarginContainer/HSplitContainer/VSplitContainer2/AssetBrowser/AssetEditor" to="VBoxContainer/MarginContainer/HSplitContainer/VSplitContainer2/AssetBrowser" method="load_assets"]
