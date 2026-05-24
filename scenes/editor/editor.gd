@@ -96,6 +96,10 @@ func load_fable_resources(current:DirAccess) -> void:
 			fable = ResourceLoader.load("user://current/scenes/"+App.selected_fables[0].get_file().rsplit(".")[0]+".tres")
 			var new_scene := scene.instantiate()
 			new_scene.scene = fable
+			%GmCam.offset = fable.gm_cam_pos
+			%GmCam.zoom = Vector2(fable.gm_cam_zoom,fable.gm_cam_zoom)
+			%GmViewport.gm_zoom = fable.gm_cam_zoom
+			%PcCam.offset = fable.pc_cam_pos
 			%SceneRoot.add_child(new_scene)
 			%AssetBrowser.load_assets()
 			%SceneTree.scene = new_scene
@@ -107,6 +111,9 @@ func save_fable() -> void: # TODO Add support for campaigns
 		new_scene.layers.append(layer.save())
 	new_scene.title = fable.title
 	new_scene.updated_date_time = Time.get_datetime_dict_from_system()
+	new_scene.gm_cam_pos = %GmCam.offset
+	new_scene.gm_cam_zoom = %GmCam.zoom.x
+	new_scene.pc_cam_pos = %PcCam.offset
 	var current := DirAccess.open("user://current")
 	if current.file_exists("scenes/"+new_scene.title+".tres"):
 		DirAccess.remove_absolute("user://current/scenes/"+new_scene.title+".tres")
@@ -159,7 +166,7 @@ func _on_mode_selector_tab_changed(tab: int) -> void:
 
 func _on_fable_menu_id_pressed(id: int) -> void:
 	match id:
-		0:
+		3:
 			App.confirm("Save changes to this fable?","Save Changes?",\
 			"Save","Cancel")
 			var confirm = await App.confirmation

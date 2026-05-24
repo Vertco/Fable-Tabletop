@@ -58,4 +58,4 @@ func _draw() -> void:
 	draw_dashed_line(selection_rect.position+Vector2(0, selection_rect.size.y), selection_rect.position, Color.WHITE, 2, 4)
 	draw_rect(selection_rect,Color(Color.WHITE,0.2))
 	
-	draw_rect(pc_cam_rect,Color.DARK_SLATE_GRAY,false,2)
+	draw_rect(pc_cam_rect,Color(0.1,0.1,0.1,0.6),false,2)

@@ -15,6 +15,9 @@ class_name Scene
 #region Data
 @export_category("Data")
 @export var assets: Dictionary[String,Asset]
+@export var gm_cam_pos: Vector2
+@export var gm_cam_zoom: float
+@export var pc_cam_pos: Vector2
 @export var layers: Array[SceneLayer]
 @export var ground_layer: int = 0
 @export var active_layer: int = 0

@@ -11,10 +11,18 @@
 [ext_resource type="PackedScene" uid="uid://bu34dvllyccp1" path="res://scenes/editor/scene_components/display_selector.tscn" id="6_pq70c"]
 [ext_resource type="Script" uid="uid://bkwkfdy5hs6kw" path="res://scenes/editor/scene_components/campaign_tree.gd" id="6_syr16"]
 [ext_resource type="PackedScene" uid="uid://brlricw6shpwd" path="res://scenes/editor/scene_components/scene_tree/scene_tree.tscn" id="7_hg2ka"]
+[ext_resource type="Script" uid="uid://bc6kl6whkwl8x" path="res://scenes/editor/pc_preview.gd" id="7_j530m"]
 [ext_resource type="PackedScene" uid="uid://b1x7lkb6ykwj6" path="res://scenes/editor/scene_components/asset_editor.tscn" id="8_5q5vg"]
-[ext_resource type="Script" uid="uid://c44uxx5tfv2na" path="res://scenes/editor/hud.gd" id="9_oljq2"]
+[ext_resource type="Script" uid="uid://c44uxx5tfv2na" path="res://scenes/editor/outline_renderer.gd" id="9_oljq2"]
 [ext_resource type="PackedScene" uid="uid://cbn6ycgpm4u5b" path="res://scenes/editor/scene_components/grid_renderer.tscn" id="10_hg2ka"]
+[ext_resource type="PackedScene" uid="uid://c3dkjqf61v3y7" path="res://scenes/editor/scene_components/pc_cam_control.tscn" id="12_oljq2"]
 [ext_resource type="Script" uid="uid://o8hkwnn3vg8" path="res://scenes/editor/notification_area.gd" id="13_i3ywb"]
+[ext_resource type="Texture2D" uid="uid://cfyc3gatgaq81" path="res://media/textures/background.webp" id="18_ja8tm"]
+
+[sub_resource type="ViewportTexture" id="ViewportTexture_oljq2"]
+viewport_path = NodePath("PcWindow")
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_j530m"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_hg2ka"]
 bg_color = Color(1, 1, 1, 1)
@@ -55,17 +63,27 @@ offset_right = 8.0
 grow_vertical = 2
 text = "Fable"
 switch_on_hover = true
-item_count = 4
-popup/item_0/text = "Save Fable"
-popup/item_0/icon = ExtResource("2_qnluh")
-popup/item_0/id = 0
-popup/item_1/text = "Convert to Campaign"
-popup/item_1/id = 1
-popup/item_2/text = "New Scene"
-popup/item_2/icon = ExtResource("2_7gtdv")
-popup/item_2/id = 2
-popup/item_3/text = "New Chapter"
-popup/item_3/id = 3
+item_count = 7
+popup/item_0/text = "New Scene"
+popup/item_0/icon = ExtResource("2_7gtdv")
+popup/item_0/id = 1
+popup/item_0/disabled = true
+popup/item_1/text = "New Chapter"
+popup/item_1/id = 2
+popup/item_1/disabled = true
+popup/item_2/text = "Open Fable"
+popup/item_2/id = 3
+popup/item_2/disabled = true
+popup/item_3/id = 0
+popup/item_3/separator = true
+popup/item_4/text = "Save Fable"
+popup/item_4/icon = ExtResource("2_qnluh")
+popup/item_4/id = 4
+popup/item_5/id = 0
+popup/item_5/separator = true
+popup/item_6/text = "Convert to Campaign"
+popup/item_6/id = 5
+popup/item_6/disabled = true
 
 [node name="ModeSelector" type="TabBar" parent="VBoxContainer/HBoxContainer" unique_id=1313093896]
 unique_name_in_owner = true
@@ -107,23 +125,54 @@ split_offset = 250
 custom_minimum_size = Vector2(250, 0)
 layout_mode = 2
 
-[node name="SceneTree" parent="VBoxContainer/MarginContainer/HSplitContainer/VSplitContainer3" unique_id=549113784 instance=ExtResource("7_hg2ka")]
+[node name="PcPreview" type="FoldableContainer" parent="VBoxContainer/MarginContainer/HSplitContainer/VSplitContainer3" unique_id=1623215692]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+title = "PC View"
+title_alignment = 1
+script = ExtResource("7_j530m")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer/MarginContainer/HSplitContainer/VSplitContainer3/PcPreview" unique_id=1198366773]
+layout_mode = 2
+
+[node name="TextureRect" type="TextureRect" parent="VBoxContainer/MarginContainer/HSplitContainer/VSplitContainer3/PcPreview/VBoxContainer" unique_id=1380419002]
+layout_mode = 2
+texture = SubResource("ViewportTexture_oljq2")
+expand_mode = 5
+stretch_mode = 6
+
+[node name="FoldableContainer" type="FoldableContainer" parent="VBoxContainer/MarginContainer/HSplitContainer/VSplitContainer3" unique_id=1333275471]
+layout_mode = 2
+size_flags_vertical = 3
+title = "Scene"
+title_alignment = 1
+
+[node name="SceneTree" parent="VBoxContainer/MarginContainer/HSplitContainer/VSplitContainer3/FoldableContainer" unique_id=549113784 instance=ExtResource("7_hg2ka")]
 unique_name_in_owner = true
 layout_mode = 2
 
-[node name="CampaignTree" type="VBoxContainer" parent="VBoxContainer/MarginContainer/HSplitContainer/VSplitContainer3" unique_id=614015529]
+[node name="FoldableContainer2" type="FoldableContainer" parent="VBoxContainer/MarginContainer/HSplitContainer/VSplitContainer3" unique_id=876979736]
+visible = false
+layout_mode = 2
+size_flags_vertical = 3
+title = "Campaign"
+title_alignment = 1
+
+[node name="CampaignTree" type="VBoxContainer" parent="VBoxContainer/MarginContainer/HSplitContainer/VSplitContainer3/FoldableContainer2" unique_id=614015529]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_vertical = 3
 script = ExtResource("6_syr16")
 
-[node name="LineEdit" type="LineEdit" parent="VBoxContainer/MarginContainer/HSplitContainer/VSplitContainer3/CampaignTree" unique_id=207318291]
+[node name="LineEdit" type="LineEdit" parent="VBoxContainer/MarginContainer/HSplitContainer/VSplitContainer3/FoldableContainer2/CampaignTree" unique_id=207318291]
 layout_mode = 2
 placeholder_text = "Filter campaign"
 
-[node name="Tree" type="Tree" parent="VBoxContainer/MarginContainer/HSplitContainer/VSplitContainer3/CampaignTree" unique_id=953439472]
+[node name="Tree" type="Tree" parent="VBoxContainer/MarginContainer/HSplitContainer/VSplitContainer3/FoldableContainer2/CampaignTree" unique_id=953439472]
 layout_mode = 2
 size_flags_vertical = 3
+theme_override_styles/panel = SubResource("StyleBoxEmpty_j530m")
 scroll_hint_mode = 1
 
 [node name="VSplitContainer2" type="VSplitContainer" parent="VBoxContainer/MarginContainer/HSplitContainer" unique_id=1122870732]
@@ -138,6 +187,7 @@ mouse_filter = 1
 theme_override_styles/panel = SubResource("StyleBoxFlat_hg2ka")
 
 [node name="GmViewport" type="SubViewportContainer" parent="VBoxContainer/MarginContainer/HSplitContainer/VSplitContainer2/Panel" unique_id=1904198415]
+unique_name_in_owner = true
 custom_minimum_size = Vector2(400, 200)
 layout_mode = 2
 size_flags_vertical = 3
@@ -161,9 +211,19 @@ unique_name_in_owner = true
 unique_name_in_owner = true
 camera = NodePath("../GmCam")
 
-[node name="HUD" type="Control" parent="VBoxContainer/MarginContainer/HSplitContainer/VSplitContainer2/Panel/GmViewport" unique_id=901798548]
+[node name="OutlineRenderer" type="Control" parent="VBoxContainer/MarginContainer/HSplitContainer/VSplitContainer2/Panel/GmViewport" unique_id=901798548]
 layout_mode = 2
 script = ExtResource("9_oljq2")
+
+[node name="PcCamControl" parent="VBoxContainer/MarginContainer/HSplitContainer/VSplitContainer2/Panel/GmViewport" unique_id=154465383 node_paths=PackedStringArray("gm_viewport", "gm_camera", "gm_gridrenderer", "pc_window", "pc_camera", "pc_gridrenderer", "pc_cover") instance=ExtResource("12_oljq2")]
+layout_mode = 2
+gm_viewport = NodePath("../GmView")
+gm_camera = NodePath("../GmView/GmCam")
+gm_gridrenderer = NodePath("../GmView/GmGrid")
+pc_window = NodePath("../../../../../../../PcWindow")
+pc_camera = NodePath("../../../../../../../PcWindow/SubViewportContainer/PcView/PcCam")
+pc_gridrenderer = NodePath("../../../../../../../PcWindow/SubViewportContainer/PcView/PcGrid")
+pc_cover = NodePath("../../../../../../../PcWindow/PcCover")
 
 [node name="AssetBrowser" type="FoldableContainer" parent="VBoxContainer/MarginContainer/HSplitContainer/VSplitContainer2" unique_id=1803836270]
 unique_name_in_owner = true
@@ -271,12 +331,23 @@ unique_name_in_owner = true
 visibility_layer = 1047552
 camera = NodePath("../PcCam")
 
+[node name="PcCover" type="TextureRect" parent="PcWindow" unique_id=1601752774]
+modulate = Color(0.5, 0.5, 0.5, 1)
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("18_ja8tm")
+expand_mode = 5
+stretch_mode = 6
+
 [connection signal="child_order_changed" from="SceneRoot" to="VBoxContainer/MarginContainer/HSplitContainer/VSplitContainer2/Panel/GmViewport" method="update_scene"]
 [connection signal="tab_changed" from="VBoxContainer/HBoxContainer/ModeSelector" to="." method="_on_mode_selector_tab_changed"]
-[connection signal="selection_changed" from="VBoxContainer/MarginContainer/HSplitContainer/VSplitContainer3/SceneTree" to="VBoxContainer/MarginContainer/HSplitContainer/VSplitContainer2/Panel" method="update"]
+[connection signal="selection_changed" from="VBoxContainer/MarginContainer/HSplitContainer/VSplitContainer3/FoldableContainer/SceneTree" to="VBoxContainer/MarginContainer/HSplitContainer/VSplitContainer2/Panel" method="update"]
 [connection signal="mouse_entered" from="VBoxContainer/MarginContainer/HSplitContainer/VSplitContainer2/Panel/GmViewport" to="VBoxContainer/MarginContainer/HSplitContainer/VSplitContainer2/Panel/GmViewport" method="_on_mouse_entered"]
 [connection signal="mouse_exited" from="VBoxContainer/MarginContainer/HSplitContainer/VSplitContainer2/Panel/GmViewport" to="VBoxContainer/MarginContainer/HSplitContainer/VSplitContainer2/Panel/GmViewport" method="_on_mouse_exited"]
-[connection signal="selection_changed" from="VBoxContainer/MarginContainer/HSplitContainer/VSplitContainer2/Panel/GmViewport" to="VBoxContainer/MarginContainer/HSplitContainer/VSplitContainer3/SceneTree" method="update"]
+[connection signal="selection_changed" from="VBoxContainer/MarginContainer/HSplitContainer/VSplitContainer2/Panel/GmViewport" to="VBoxContainer/MarginContainer/HSplitContainer/VSplitContainer3/FoldableContainer/SceneTree" method="update"]
 [connection signal="selection_changed" from="VBoxContainer/MarginContainer/HSplitContainer/VSplitContainer2/Panel/GmViewport" to="VBoxContainer/MarginContainer/HSplitContainer/VSplitContainer2/Panel" method="update"]
 [connection signal="folding_changed" from="VBoxContainer/MarginContainer/HSplitContainer/VSplitContainer2/AssetBrowser" to="VBoxContainer/MarginContainer/HSplitContainer/VSplitContainer2/AssetBrowser" method="_on_folding_changed"]
 [connection signal="mouse_entered" from="VBoxContainer/MarginContainer/HSplitContainer/VSplitContainer2/AssetBrowser" to="VBoxContainer/MarginContainer/HSplitContainer/VSplitContainer2/AssetBrowser" method="_on_mouse_entered"]
@@ -285,3 +356,4 @@ camera = NodePath("../PcCam")
 [connection signal="text_changed" from="VBoxContainer/MarginContainer/HSplitContainer/VSplitContainer2/AssetBrowser/MarginContainer/VBoxContainer/MarginContainer/HBoxContainer/AssetsFilter" to="VBoxContainer/MarginContainer/HSplitContainer/VSplitContainer2/AssetBrowser" method="filter_assets"]
 [connection signal="pressed" from="VBoxContainer/MarginContainer/HSplitContainer/VSplitContainer2/AssetBrowser/MarginContainer/VBoxContainer/MarginContainer/HBoxContainer/AddAsset" to="VBoxContainer/MarginContainer/HSplitContainer/VSplitContainer2/AssetBrowser" method="open_asset_editor"]
 [connection signal="updated" from="VBoxContainer/MarginContainer/HSplitContainer/VSplitContainer2/AssetBrowser/AssetEditor" to="VBoxContainer/MarginContainer/HSplitContainer/VSplitContainer2/AssetBrowser" method="load_assets"]
+[connection signal="visibility_changed" from="PcWindow" to="VBoxContainer/MarginContainer/HSplitContainer/VSplitContainer3/PcPreview" method="_on_pc_window_visibility_changed"]
