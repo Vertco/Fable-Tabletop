@@ -100,6 +100,7 @@ func load_fable_resources(current:DirAccess) -> void:
 			%GmCam.zoom = Vector2(fable.gm_cam_zoom,fable.gm_cam_zoom)
 			%GmViewport.gm_zoom = fable.gm_cam_zoom
 			%PcCam.offset = fable.pc_cam_pos
+			update_pc_zoom(Prefs.pc_zoom)
 			%SceneRoot.add_child(new_scene)
 			%AssetBrowser.load_assets()
 			%SceneTree.scene = new_scene
@@ -142,6 +143,12 @@ func validate_fable() -> Error:
 func update_titlebar(_id:int = 0) -> void:
 	DisplayServer.window_set_title("Fable Tabletop | " + App.selected_fables[0].get_file().rsplit(".")[0] + \
 	" - " + %ModeSelector.get_tab_title(%ModeSelector.current_tab))
+
+
+func update_pc_zoom(size:Vector2) -> void:
+	print(size)
+	if size != Vector2(0,0):
+		%PcCam.zoom = Vector2((%PcWindow.get_visible_rect().size*0.0508)/size)
 
 
 func _notification(what):

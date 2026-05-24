@@ -1,6 +1,9 @@
 extends Control
 
 
+signal pc_zoom_updated(zoom:Vector2)
+
+
 @export var pc_window:Window
 
 
@@ -172,9 +175,35 @@ func _on_confirmed() -> void:
 		var global_pos = DisplayServer.screen_get_position(App.pc_display)
 		pc_window.set_position(global_pos)
 		pc_window.popup()
+		emit_signal("pc_zoom_updated", Prefs.pc_zoom)
 		%SelectionMenu.hide()
 		App.notify(App.StatusState.SUCCESS,"Succesfully started projecting")
 		update()
-		#%PcOverlay.visible = true
-		#%PcGridRenderer.queue_redraw()
-		#%PcCamControl.update()
+
+
+func _on_options_button_pressed() -> void:
+	%PcOptions.popup()
+
+
+func _on_pc_options_about_to_popup() -> void:
+	%Width.value = Prefs.pc_zoom.x
+	%Height.value = Prefs.pc_zoom.y
+
+
+func _on_pc_options_confirmed() -> void:
+	var pc_view_size:Vector2
+	if %Width.value == 0 && %Height.value == 0:
+		emit_signal("pc_zoom_updated", Vector2(0,0))
+		pc_view_size = Vector2(0,0)
+	else:
+		pc_view_size = Vector2(%Width.value,%Height.value)
+	Prefs.save_prefs({"pc_zoom": pc_view_size})
+	emit_signal("pc_zoom_updated", pc_view_size)
+
+
+func _on_reset_width_pressed() -> void:
+	%Width.value = 0
+
+
+func _on_reset_height_pressed() -> void:
+	%Height.value = 0

@@ -3,6 +3,7 @@
 [ext_resource type="Texture2D" uid="uid://6urlri2cvn48" path="res://media/icons/chevron_down.svg" id="1_6f8ci"]
 [ext_resource type="Script" uid="uid://duleos7o6tkld" path="res://scenes/editor/scene_components/display_selector.gd" id="1_pvy70"]
 [ext_resource type="Texture2D" uid="uid://cwgq8y4rygcmm" path="res://media/icons/modifiers.svg" id="3_dmy7r"]
+[ext_resource type="Texture2D" uid="uid://b0xmgpk2dvu8k" path="res://media/icons/reload.svg" id="4_fj8ug"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_pvy70"]
 
@@ -95,10 +96,78 @@ size_flags_horizontal = 4
 disabled = true
 text = "Project"
 
-[node name="Button" type="Button" parent="SelectionMenu/MarginContainer/VBoxContainer/HBoxContainer" unique_id=604368654]
+[node name="OptionsButton" type="Button" parent="SelectionMenu/MarginContainer/VBoxContainer/HBoxContainer" unique_id=604368654]
 layout_mode = 2
 icon = ExtResource("3_dmy7r")
+
+[node name="PcOptions" type="ConfirmationDialog" parent="." unique_id=373457097]
+unique_name_in_owner = true
+oversampling_override = 1.0
+title = "Change Player's view"
+initial_position = 2
+size = Vector2i(300, 150)
+ok_button_text = "Save"
+
+[node name="MarginContainer" type="MarginContainer" parent="PcOptions" unique_id=539639956]
+offset_left = 8.0
+offset_top = 8.0
+offset_right = 292.0
+offset_bottom = 101.0
+
+[node name="VBoxContainer" type="VBoxContainer" parent="PcOptions/MarginContainer" unique_id=1152911948]
+layout_mode = 2
+size_flags_horizontal = 4
+alignment = 1
+
+[node name="HBoxContainer" type="HBoxContainer" parent="PcOptions/MarginContainer/VBoxContainer" unique_id=231210066]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="PcOptions/MarginContainer/VBoxContainer/HBoxContainer" unique_id=213279622]
+custom_minimum_size = Vector2(75, 0)
+layout_mode = 2
+text = "Width:"
+
+[node name="ResetWidth" type="Button" parent="PcOptions/MarginContainer/VBoxContainer/HBoxContainer" unique_id=1889048924]
+layout_mode = 2
+icon = ExtResource("4_fj8ug")
+flat = true
+
+[node name="Width" type="SpinBox" parent="PcOptions/MarginContainer/VBoxContainer/HBoxContainer" unique_id=1570636085]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(100, 0)
+layout_mode = 2
+step = 0.1
+alignment = 1
+suffix = "cm"
+select_all_on_focus = true
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="PcOptions/MarginContainer/VBoxContainer" unique_id=750184522]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="PcOptions/MarginContainer/VBoxContainer/HBoxContainer2" unique_id=1970990182]
+custom_minimum_size = Vector2(75, 0)
+layout_mode = 2
+text = "Height:"
+
+[node name="ResetHeight" type="Button" parent="PcOptions/MarginContainer/VBoxContainer/HBoxContainer2" unique_id=1870330675]
+layout_mode = 2
+icon = ExtResource("4_fj8ug")
+flat = true
+
+[node name="Height" type="SpinBox" parent="PcOptions/MarginContainer/VBoxContainer/HBoxContainer2" unique_id=1088808302]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(100, 0)
+layout_mode = 2
+step = 0.1
+alignment = 1
+suffix = "cm"
+select_all_on_focus = true
 
 [connection signal="pressed" from="." to="." method="_on_pressed"]
 [connection signal="mouse_exited" from="SelectionMenu" to="." method="_on_selection_menu_mouse_exited"]
 [connection signal="pressed" from="SelectionMenu/MarginContainer/VBoxContainer/HBoxContainer/ConfirmButton" to="." method="_on_confirmed"]
+[connection signal="pressed" from="SelectionMenu/MarginContainer/VBoxContainer/HBoxContainer/OptionsButton" to="." method="_on_options_button_pressed"]
+[connection signal="about_to_popup" from="PcOptions" to="." method="_on_pc_options_about_to_popup"]
+[connection signal="confirmed" from="PcOptions" to="." method="_on_pc_options_confirmed"]
+[connection signal="pressed" from="PcOptions/MarginContainer/VBoxContainer/HBoxContainer/ResetWidth" to="." method="_on_reset_width_pressed"]
+[connection signal="pressed" from="PcOptions/MarginContainer/VBoxContainer/HBoxContainer2/ResetHeight" to="." method="_on_reset_height_pressed"]

@@ -26,6 +26,12 @@ var prefs_file := "user://preferences.tres"
 		if initialized:
 			save_prefs({"assets_location": value})
 		emit_signal("prefs_updated","assets_location")
+@export var pc_zoom:Vector2:
+	set(value):
+		pc_zoom = value
+		if initialized:
+			save_prefs({"pc_zoom": value})
+		emit_signal("prefs_updated","pc_zoom")
 
 
 func _ready() -> void:

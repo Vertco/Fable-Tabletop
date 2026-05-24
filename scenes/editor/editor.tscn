@@ -344,6 +344,7 @@ stretch_mode = 6
 
 [connection signal="child_order_changed" from="SceneRoot" to="VBoxContainer/MarginContainer/HSplitContainer/VSplitContainer2/Panel/GmViewport" method="update_scene"]
 [connection signal="tab_changed" from="VBoxContainer/HBoxContainer/ModeSelector" to="." method="_on_mode_selector_tab_changed"]
+[connection signal="pc_zoom_updated" from="VBoxContainer/HBoxContainer/HBoxContainer/DisplaySelector" to="." method="update_pc_zoom"]
 [connection signal="selection_changed" from="VBoxContainer/MarginContainer/HSplitContainer/VSplitContainer3/FoldableContainer/SceneTree" to="VBoxContainer/MarginContainer/HSplitContainer/VSplitContainer2/Panel" method="update"]
 [connection signal="mouse_entered" from="VBoxContainer/MarginContainer/HSplitContainer/VSplitContainer2/Panel/GmViewport" to="VBoxContainer/MarginContainer/HSplitContainer/VSplitContainer2/Panel/GmViewport" method="_on_mouse_entered"]
 [connection signal="mouse_exited" from="VBoxContainer/MarginContainer/HSplitContainer/VSplitContainer2/Panel/GmViewport" to="VBoxContainer/MarginContainer/HSplitContainer/VSplitContainer2/Panel/GmViewport" method="_on_mouse_exited"]
