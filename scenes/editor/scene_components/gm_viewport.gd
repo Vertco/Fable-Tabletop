@@ -19,6 +19,9 @@ var was_dragging_asset := false
 var was_multi_select := false
 var last_single_select_stack: Array[int] = []
 var focus := false
+var move_action_open := false
+var drag_assets: Array[Node] = []
+var drag_start_positions := {}
 var undo_redo:UndoRedo
 
 
@@ -29,73 +32,81 @@ func update_scene() -> void:
 func _unhandled_input(event: InputEvent) -> void:
 	if focus:
 		if event.is_action_released("ui_undo"):
-			undo_redo.undo()
+			if not move_action_open:
+				undo_redo.undo()
 		elif event.is_action_released("ui_redo"):
-			undo_redo.redo()
+			if not move_action_open:
+				undo_redo.redo()
 		elif event.is_action_released("asset_delete"):
 			undo_redo.create_action("Delete assets")
-			var assets:Array[Node] = get_tree().get_nodes_in_group("selected_assets")
+			var assets: Array[Node] = get_tree().get_nodes_in_group("selected_assets")
 			for asset in assets:
 				undo_redo.add_undo_reference(asset)
 				undo_redo.add_undo_reference(asset.get_parent())
 				undo_redo.add_do_method(asset.get_parent().remove_child.bind(asset))
 				undo_redo.add_undo_method(asset.get_parent().add_child.bind(asset))
-				undo_redo.add_undo_method(asset.get_parent().move_child.bind(asset,asset.get_index()))
+				undo_redo.add_undo_method(asset.get_parent().move_child.bind(asset, asset.get_index()))
 			undo_redo.commit_action()
-	
+		elif event.is_action_released("ui_cancel"):
+			get_tree().call_group("selected_assets","deselect")
 	if event.is_action_pressed("cam_pan"):
 		cam_pan = true
 	elif event.is_action_released("cam_pan"):
 		cam_pan = false
-	
-	var over_selected := false
 	var pos: Vector2 = %GmView.get_canvas_transform().affine_inverse() * %GmView.get_mouse_position()
-	var nodes: Array = %SceneRoot.get_node("Scene").get_assets_at(pos)
-	for node in nodes:
-		if node.selected:
-			over_selected = true
 	if event.is_action_pressed("asset_multi_select"):
 		select(true)
 		was_multi_select = true
 	elif event.is_action_pressed("asset_select"):
+		var nodes: Array = %SceneRoot.get_node("Scene").get_assets_at(pos)
+		var over_selected := false
+		for node in nodes:
+			if node.selected:
+				over_selected = true
 		if over_selected:
 			asset_drag = true
-			undo_redo.create_action("Move assets")
-			for asset in get_tree().get_nodes_in_group("selected_assets"):
-				undo_redo.add_undo_property(asset,"position",asset.position)
+			was_dragging_asset = false
+			drag_assets = get_tree().get_nodes_in_group("selected_assets")
+			drag_start_positions.clear()
+			for asset in drag_assets:
+				drag_start_positions[asset] = asset.position
 			Input.set_default_cursor_shape(Input.CURSOR_DRAG)
 	elif event.is_action_released("asset_select"):
 		asset_drag = false
-		for asset in get_tree().get_nodes_in_group("selected_assets"):
-			undo_redo.add_do_property(asset,"position",asset.position)
 		Input.set_default_cursor_shape(Input.CURSOR_ARROW)
-		if was_dragging_asset:
-			was_dragging_asset = false
+		if move_action_open:
+			for asset in drag_assets:
+				undo_redo.add_do_property(asset, "position", asset.position)
 			undo_redo.commit_action(false)
+			move_action_open = false
+			was_dragging_asset = false
+			drag_assets.clear()
+			drag_start_positions.clear()
 		elif was_multi_select:
 			was_multi_select = false
 			return
 		else:
 			select()
-	
 	if event.is_action_pressed("cam_zoom_in"):
 		update_gm_zoom(gm_zoom_incr)
 	elif event.is_action_pressed("cam_zoom_out"):
 		update_gm_zoom(-gm_zoom_incr)
-	
 	if event is InputEventMouseMotion:
 		if cam_pan:
-			var new_offset = %GmCam.get_offset() - event.relative/gm_zoom
-			new_offset.x = new_offset.x
-			new_offset.y = new_offset.y
+			var new_offset = %GmCam.get_offset() - event.relative / gm_zoom
 			%GmCam.set_offset(new_offset)
 			%GmGrid.queue_redraw()
-		elif asset_drag and over_selected:
-			for asset in get_tree().get_nodes_in_group("selected_assets"):
-				var og_pos:Vector2 = asset.position
-				asset.position = og_pos+event.relative/gm_zoom
-				if og_pos != asset.position:
-					was_dragging_asset = true
+		elif asset_drag:
+			if event.relative.is_zero_approx():
+				return
+			if not move_action_open:
+				undo_redo.create_action("Move assets")
+				for asset in drag_assets:
+					undo_redo.add_undo_property(asset, "position", drag_start_positions[asset])
+				move_action_open = true
+			for asset in drag_assets:
+				asset.position += event.relative / gm_zoom
+			was_dragging_asset = true
 
 
 func get_asset_ids(nodes: Array) -> Array[int]:

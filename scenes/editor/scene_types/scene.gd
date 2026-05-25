@@ -42,14 +42,12 @@ func add_asset(_asset_position: Vector2, data: Variant, layer: int = 99) -> void
 	undo_redo.commit_action(false)
 
 
-func get_assets_at(at_position:Vector2) -> Array[Node]:
-	var nodes:Array[Node]
+func get_assets_at(at_position: Vector2) -> Array[Node]:
+	var nodes: Array[Node]
 	for layer in %LayerManager.get_children():
 		for node in layer.get_children():
-			if node.type in ["ImageAsset", "TokenAsset"] &&\
-			!node.locked and node.gm_vis:
-				if node.get_rect().has_point(at_position) &&\
-				node.is_pixel_opaque(node.to_local(at_position)):
+			if node.type in ["ImageAsset", "TokenAsset"] and !node.locked and node.gm_vis:
+				if node.get_rect().has_point(at_position) and node.is_pixel_opaque(at_position):
 					nodes.append(node)
 	nodes.reverse()
 	return nodes

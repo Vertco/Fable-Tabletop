@@ -81,13 +81,14 @@ func edit(field:String, value:Variant = null) -> void:
 
 
 func get_rect() -> Rect2:
-	var rect:Rect2= get_children()[0].get_rect()
-	rect.position = to_global(rect.position)
-	return rect
+	var display := get_children()[0] as Sprite2D
+	return display.get_global_transform() * display.get_rect()
 
 
-func is_pixel_opaque(pos:Vector2) -> bool:
-	return get_children()[0].is_pixel_opaque(pos)
+func is_pixel_opaque(global_pos: Vector2) -> bool:
+	var display := get_children()[0] as Sprite2D
+	var sprite_local := display.to_local(global_pos)
+	return display.is_pixel_opaque(sprite_local)
 
 
 func select() -> void:
@@ -102,6 +103,8 @@ func image_asset() -> void:
 	var sprite := Sprite2D.new()
 	var image := Image.load_from_file(asset.texture)
 	sprite.texture = ImageTexture.create_from_image(image)
+	if asset.pps:
+		sprite.scale = Vector2(50.0/asset.pps, 50.0/asset.pps)
 	for layer in range(0,10):
 		sprite.set_visibility_layer_bit(layer,gm_vis)
 	for layer in range(11,20):

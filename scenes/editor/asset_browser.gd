@@ -49,14 +49,8 @@ func _on_folding_changed(fold_state: bool) -> void:
 
 
 func open_asset_editor(asset:Asset = null) -> void:
-	if asset == null:
-		$AssetEditor/Background/Window.title = "Create new asset"
-	else:
-		%AssetEditor.title = "Edit " + asset.get_script().get_global_name()
-		%AssetEditor.file_path = asset.texture
-		%AssetEditor.display_name = asset.name
+	%AssetEditor.asset = asset
 	%AssetEditor.show()
-	$AssetEditor/Background/Window.popup()
 
 
 func select_asset(asset:Node) -> void:

@@ -77,6 +77,44 @@ text = "Display name:"
 unique_name_in_owner = true
 layout_mode = 2
 
+[node name="Label4" type="Label" parent="Background/Window/VBoxContainer/GridContainer" unique_id=1595975106]
+layout_mode = 2
+text = "Scaled?"
+
+[node name="Scaled" type="CheckBox" parent="Background/Window/VBoxContainer/GridContainer" unique_id=1642378768]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Not scaled"
+
+[node name="PpsSpacer" type="Control" parent="Background/Window/VBoxContainer/GridContainer" unique_id=710426606]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+
+[node name="PpsContainer" type="HBoxContainer" parent="Background/Window/VBoxContainer/GridContainer" unique_id=1818069143]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+theme_override_constants/separation = 20
+
+[node name="Label3" type="Label" parent="Background/Window/VBoxContainer/GridContainer/PpsContainer" unique_id=1647565058]
+layout_mode = 2
+text = "Pixels / square:"
+
+[node name="PPS" type="SpinBox" parent="Background/Window/VBoxContainer/GridContainer/PpsContainer" unique_id=756545603]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+min_value = 10.0
+max_value = 1024.0
+step = 0.1
+value = 10.0
+allow_greater = true
+suffix = "PPS"
+custom_arrow_step = 1.0
+custom_arrow_round = true
+select_all_on_focus = true
+
 [node name="AssetPreview" type="TextureRect" parent="Background/Window/VBoxContainer" unique_id=1473574712]
 unique_name_in_owner = true
 layout_mode = 2
@@ -87,3 +125,4 @@ size_flags_vertical = 3
 [connection signal="confirmed" from="Background/Window" to="." method="_on_window_confirmed"]
 [connection signal="pressed" from="Background/Window/VBoxContainer/GridContainer/HBoxContainer/FilePicker" to="." method="_on_file_picker_pressed"]
 [connection signal="file_selected" from="Background/Window/VBoxContainer/GridContainer/HBoxContainer/ImageFileDialog" to="." method="_on_image_file_dialog_file_selected"]
+[connection signal="toggled" from="Background/Window/VBoxContainer/GridContainer/Scaled" to="." method="_on_scaled_toggled"]

@@ -146,7 +146,6 @@ func update_titlebar(_id:int = 0) -> void:
 
 
 func update_pc_zoom(size:Vector2) -> void:
-	print(size)
 	if size != Vector2(0,0):
 		%PcCam.zoom = Vector2((%PcWindow.get_visible_rect().size*0.0508)/size)
 

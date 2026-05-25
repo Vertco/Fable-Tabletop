@@ -86,10 +86,13 @@ func deselect() -> void:
 func _get_drag_data(_at_position) -> Asset:
 	var icon = TextureRect.new()
 	var preview = Control.new()
+	var icon_scale := 1.0
 	var image := Image.load_from_file(data.texture)
+	if data.pps:
+		icon_scale = 50/data.pps
 	icon.texture = ImageTexture.create_from_image(image)
-	icon.position = (icon.texture.get_size() * -0.5)*App.gm_zoom
-	icon.scale = icon.scale*App.gm_zoom
+	icon.scale = (icon.scale*icon_scale)*App.gm_zoom
+	icon.position = ((icon.texture.get_size()*icon_scale) * -0.5)*App.gm_zoom
 	icon.modulate = "ffffff88"
 	preview.add_child(icon)
 	set_drag_preview(preview)
