@@ -34,6 +34,8 @@ enum Mode{
 func _ready() -> void:
 	update_cull_mask(App.active_layer, App.visible_layers)
 	App.layers_changed.connect(update_cull_mask)
+	Prefs.prefs_updated.connect(on_prefs_updated)
+	%PcGrid.visible = Prefs.pc_grid
 	DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_MAXIMIZED)
 	%FableMenu.get_popup().connect("id_pressed",_on_fable_menu_id_pressed)
 	%GmView.world_2d = %SceneRoot.get_world_2d()
@@ -163,6 +165,12 @@ func _notification(what):
 				save_fable()
 				App.delete_recursive(App.current_dir)
 				get_tree().quit()
+
+
+func on_prefs_updated(pref:String) -> void:
+	match pref:
+		"pc_grid":
+			%PcGrid.visible = Prefs.pc_grid
 
 
 func _on_mode_selector_tab_changed(tab: int) -> void:

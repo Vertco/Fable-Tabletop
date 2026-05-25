@@ -105,14 +105,14 @@ unique_name_in_owner = true
 oversampling_override = 1.0
 title = "Change Player's view"
 initial_position = 2
-size = Vector2i(300, 150)
+size = Vector2i(300, 158)
 ok_button_text = "Save"
 
 [node name="MarginContainer" type="MarginContainer" parent="PcOptions" unique_id=539639956]
 offset_left = 8.0
 offset_top = 8.0
 offset_right = 292.0
-offset_bottom = 101.0
+offset_bottom = 109.0
 
 [node name="VBoxContainer" type="VBoxContainer" parent="PcOptions/MarginContainer" unique_id=1152911948]
 layout_mode = 2
@@ -163,6 +163,20 @@ alignment = 1
 suffix = "cm"
 select_all_on_focus = true
 
+[node name="HBoxContainer3" type="HBoxContainer" parent="PcOptions/MarginContainer/VBoxContainer" unique_id=2100602814]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="PcOptions/MarginContainer/VBoxContainer/HBoxContainer3" unique_id=913231968]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Show grid: "
+
+[node name="Grid" type="CheckBox" parent="PcOptions/MarginContainer/VBoxContainer/HBoxContainer3" unique_id=557967676]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(100, 0)
+layout_mode = 2
+text = "Hidden"
+
 [connection signal="pressed" from="." to="." method="_on_pressed"]
 [connection signal="mouse_exited" from="SelectionMenu" to="." method="_on_selection_menu_mouse_exited"]
 [connection signal="pressed" from="SelectionMenu/MarginContainer/VBoxContainer/HBoxContainer/ConfirmButton" to="." method="_on_confirmed"]
@@ -171,3 +185,4 @@ select_all_on_focus = true
 [connection signal="confirmed" from="PcOptions" to="." method="_on_pc_options_confirmed"]
 [connection signal="pressed" from="PcOptions/MarginContainer/VBoxContainer/HBoxContainer/ResetWidth" to="." method="_on_reset_width_pressed"]
 [connection signal="pressed" from="PcOptions/MarginContainer/VBoxContainer/HBoxContainer2/ResetHeight" to="." method="_on_reset_height_pressed"]
+[connection signal="toggled" from="PcOptions/MarginContainer/VBoxContainer/HBoxContainer3/Grid" to="." method="_on_grid_toggled"]

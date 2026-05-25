@@ -6,7 +6,8 @@ signal prefs_updated(pref:String)
 
 const defaults:Dictionary[String,Variant] = {
 	"fables_location": null,
-	"assets_location": "user://assets"
+	"assets_location": "user://assets",
+	"pc_grid": true
 }
 
 
@@ -32,6 +33,12 @@ var prefs_file := "user://preferences.tres"
 		if initialized:
 			save_prefs({"pc_zoom": value})
 		emit_signal("prefs_updated","pc_zoom")
+@export var pc_grid:bool:
+	set(value):
+		pc_grid = value
+		if initialized:
+			save_prefs({"pc_grid": value})
+		emit_signal("prefs_updated","pc_grid")
 
 
 func _ready() -> void:
@@ -56,5 +63,5 @@ func save_prefs(pref:Dictionary[String,Variant]) -> void:
 	var new_prefs := Preferences.new()
 	if FileAccess.file_exists(prefs_file):
 		new_prefs = ResourceLoader.load(prefs_file)
-	new_prefs.preferences.merge(pref)
+	new_prefs.preferences.merge(pref,true)
 	ResourceSaver.save(new_prefs,prefs_file)

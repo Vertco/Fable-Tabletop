@@ -188,6 +188,7 @@ func _on_options_button_pressed() -> void:
 func _on_pc_options_about_to_popup() -> void:
 	%Width.value = Prefs.pc_zoom.x
 	%Height.value = Prefs.pc_zoom.y
+	%Grid.button_pressed = Prefs.pc_grid
 
 
 func _on_pc_options_confirmed() -> void:
@@ -197,7 +198,8 @@ func _on_pc_options_confirmed() -> void:
 		pc_view_size = Vector2(0,0)
 	else:
 		pc_view_size = Vector2(%Width.value,%Height.value)
-	Prefs.save_prefs({"pc_zoom": pc_view_size})
+	Prefs.pc_zoom = pc_view_size
+	Prefs.pc_grid = %Grid.button_pressed
 	emit_signal("pc_zoom_updated", pc_view_size)
 
 
@@ -207,3 +209,10 @@ func _on_reset_width_pressed() -> void:
 
 func _on_reset_height_pressed() -> void:
 	%Height.value = 0
+
+
+func _on_grid_toggled(toggled_on: bool) -> void:
+	if toggled_on:
+		%Grid.text = "Visible"
+	else:
+		%Grid.text = "Hidden"
