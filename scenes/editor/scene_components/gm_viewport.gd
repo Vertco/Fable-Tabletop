@@ -22,6 +22,7 @@ var focus := false
 var move_action_open := false
 var drag_assets: Array[Node] = []
 var drag_start_positions := {}
+var drag_accum:Vector2 = Vector2.ONE
 var undo_redo:UndoRedo
 
 
@@ -105,8 +106,22 @@ func _unhandled_input(event: InputEvent) -> void:
 					undo_redo.add_undo_property(asset, "position", drag_start_positions[asset])
 				move_action_open = true
 			for asset in drag_assets:
-				asset.position += event.relative / gm_zoom
+				drag_accum += event.relative
+				if Input.is_action_pressed("asset_snap"):
+					if drag_accum.length() >= 25 * %GmCam.zoom.x:
+						asset.position = snap_to_grid(asset.position + (drag_accum / %GmCam.zoom))
+						drag_accum = Vector2.ZERO
+				else:
+					drag_accum = Vector2.ZERO
+					asset.position += event.relative / gm_zoom
 			was_dragging_asset = true
+
+
+func snap_to_grid(pos: Vector2) -> Vector2:
+	return Vector2(
+		round(pos.x / 25) * 25,
+		round(pos.y / 25) * 25
+	)
 
 
 func get_asset_ids(nodes: Array) -> Array[int]:
