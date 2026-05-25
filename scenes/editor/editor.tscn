@@ -18,6 +18,8 @@
 [ext_resource type="PackedScene" uid="uid://c3dkjqf61v3y7" path="res://scenes/editor/scene_components/pc_cam_control.tscn" id="12_oljq2"]
 [ext_resource type="Script" uid="uid://o8hkwnn3vg8" path="res://scenes/editor/notification_area.gd" id="13_i3ywb"]
 [ext_resource type="Texture2D" uid="uid://cfyc3gatgaq81" path="res://media/textures/background.webp" id="18_ja8tm"]
+[ext_resource type="Script" uid="uid://cxwmfg7rg0l6e" path="res://scenes/editor/pc_window.gd" id="18_tg17e"]
+[ext_resource type="Shader" uid="uid://w4py64ksfb1s" path="res://media/shaders/desk_blur.gdshader" id="19_svbvx"]
 
 [sub_resource type="ViewportTexture" id="ViewportTexture_oljq2"]
 viewport_path = NodePath("PcWindow")
@@ -30,6 +32,22 @@ corner_radius_top_left = 3
 corner_radius_top_right = 3
 corner_radius_bottom_right = 3
 corner_radius_bottom_left = 3
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_b8rj3"]
+shader = ExtResource("19_svbvx")
+shader_parameter/blur_amount = 3.0000001425
+shader_parameter/mix_amount = 0.30000001425
+shader_parameter/color_over = Color(1, 1, 1, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_svbvx"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_r6jol"]
+shader = ExtResource("19_svbvx")
+shader_parameter/blur_amount = 3.0000001425
+shader_parameter/mix_amount = 0.30000001425
+shader_parameter/color_over = Color(0.9955804, 0.99558026, 0.99558026, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_b8rj3"]
 
 [node name="Editor" type="Node" unique_id=1256557791]
 script = ExtResource("1_p4a8s")
@@ -307,6 +325,7 @@ visible = false
 always_on_top = true
 unfocusable = true
 force_native = true
+script = ExtResource("18_tg17e")
 
 [node name="SubViewportContainer" type="SubViewportContainer" parent="PcWindow" unique_id=1988914154]
 anchors_preset = 15
@@ -330,6 +349,25 @@ unique_name_in_owner = true
 unique_name_in_owner = true
 visibility_layer = 1047552
 camera = NodePath("../PcCam")
+
+[node name="PcDeskLeft" type="Panel" parent="PcWindow" unique_id=1975900438]
+unique_name_in_owner = true
+material = SubResource("ShaderMaterial_b8rj3")
+anchors_preset = 9
+anchor_bottom = 1.0
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_svbvx")
+
+[node name="PcDeskRight" type="Panel" parent="PcWindow" unique_id=1054832019]
+unique_name_in_owner = true
+material = SubResource("ShaderMaterial_r6jol")
+anchors_preset = 11
+anchor_left = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 0
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_b8rj3")
 
 [node name="PcCover" type="TextureRect" parent="PcWindow" unique_id=1601752774]
 modulate = Color(0.5, 0.5, 0.5, 1)
@@ -358,3 +396,4 @@ stretch_mode = 6
 [connection signal="pressed" from="VBoxContainer/MarginContainer/HSplitContainer/VSplitContainer2/AssetBrowser/MarginContainer/VBoxContainer/MarginContainer/HBoxContainer/AddAsset" to="VBoxContainer/MarginContainer/HSplitContainer/VSplitContainer2/AssetBrowser" method="open_asset_editor"]
 [connection signal="updated" from="VBoxContainer/MarginContainer/HSplitContainer/VSplitContainer2/AssetBrowser/AssetEditor" to="VBoxContainer/MarginContainer/HSplitContainer/VSplitContainer2/AssetBrowser" method="load_assets"]
 [connection signal="visibility_changed" from="PcWindow" to="VBoxContainer/MarginContainer/HSplitContainer/VSplitContainer3/PcPreview" method="_on_pc_window_visibility_changed"]
+[connection signal="visibility_changed" from="PcWindow" to="PcWindow" method="_on_visibility_changed"]

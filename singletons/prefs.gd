@@ -7,7 +7,8 @@ signal prefs_updated(pref:String)
 const defaults:Dictionary[String,Variant] = {
 	"fables_location": null,
 	"assets_location": "user://assets",
-	"pc_grid": true
+	"pc_grid": true,
+	"pc_desk": 0
 }
 
 
@@ -17,28 +18,39 @@ var prefs_file := "user://preferences.tres"
 
 @export_global_dir var fables_location: String:
 	set(value):
-		fables_location = value
-		if initialized:
-			save_prefs({"fables_location": value})
-		emit_signal("prefs_updated","fables_location")
+		if value != fables_location:
+			fables_location = value
+			if initialized:
+				save_prefs({"fables_location": value})
+			emit_signal("prefs_updated","fables_location")
 @export_global_dir var assets_location: String = "user://assets":
 	set(value):
-		assets_location = value
-		if initialized:
-			save_prefs({"assets_location": value})
-		emit_signal("prefs_updated","assets_location")
+		if value != assets_location:
+			assets_location = value
+			if initialized:
+				save_prefs({"assets_location": value})
+			emit_signal("prefs_updated","assets_location")
 @export var pc_zoom:Vector2:
 	set(value):
-		pc_zoom = value
-		if initialized:
-			save_prefs({"pc_zoom": value})
-		emit_signal("prefs_updated","pc_zoom")
+		if value != pc_zoom:
+			pc_zoom = value
+			if initialized:
+				save_prefs({"pc_zoom": value})
+			emit_signal("prefs_updated","pc_zoom")
 @export var pc_grid:bool:
 	set(value):
-		pc_grid = value
-		if initialized:
-			save_prefs({"pc_grid": value})
-		emit_signal("prefs_updated","pc_grid")
+		if value != pc_grid:
+			pc_grid = value
+			if initialized:
+				save_prefs({"pc_grid": value})
+			emit_signal("prefs_updated","pc_grid")
+@export var pc_desk:int:
+	set(value):
+		if value != pc_desk:
+			pc_desk = value
+			if initialized:
+				save_prefs({"pc_desk": value})
+			emit_signal("prefs_updated","pc_desk")
 
 
 func _ready() -> void:

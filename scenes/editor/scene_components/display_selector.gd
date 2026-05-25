@@ -172,13 +172,16 @@ func _on_confirmed() -> void:
 			App.notify(App.StatusState.INFO,"Stopped projecting")
 			update()
 	else:
-		var global_pos = DisplayServer.screen_get_position(App.pc_display)
-		pc_window.set_position(global_pos)
-		pc_window.popup()
-		emit_signal("pc_zoom_updated", Prefs.pc_zoom)
-		%SelectionMenu.hide()
-		App.notify(App.StatusState.SUCCESS,"Succesfully started projecting")
-		update()
+		if Prefs.pc_zoom == Vector2.ZERO:
+			_on_options_button_pressed()
+		else:
+			var global_pos = DisplayServer.screen_get_position(App.pc_display)
+			pc_window.set_position(global_pos)
+			pc_window.popup()
+			emit_signal("pc_zoom_updated", Prefs.pc_zoom)
+			%SelectionMenu.hide()
+			App.notify(App.StatusState.SUCCESS,"Succesfully started projecting")
+			update()
 
 
 func _on_options_button_pressed() -> void:
@@ -189,6 +192,11 @@ func _on_pc_options_about_to_popup() -> void:
 	%Width.value = Prefs.pc_zoom.x
 	%Height.value = Prefs.pc_zoom.y
 	%Grid.button_pressed = Prefs.pc_grid
+	if Prefs.pc_desk:
+		%PcDesk.button_pressed = true
+		%DeskWidth.value = Prefs.pc_desk
+	else:
+		%PcDesk.button_pressed = false
 
 
 func _on_pc_options_confirmed() -> void:
@@ -200,15 +208,11 @@ func _on_pc_options_confirmed() -> void:
 		pc_view_size = Vector2(%Width.value,%Height.value)
 	Prefs.pc_zoom = pc_view_size
 	Prefs.pc_grid = %Grid.button_pressed
+	if %PcDesk.button_pressed:
+		Prefs.pc_desk = %DeskWidth.value
+	else:
+		Prefs.pc_desk = 0
 	emit_signal("pc_zoom_updated", pc_view_size)
-
-
-func _on_reset_width_pressed() -> void:
-	%Width.value = 0
-
-
-func _on_reset_height_pressed() -> void:
-	%Height.value = 0
 
 
 func _on_grid_toggled(toggled_on: bool) -> void:
@@ -216,3 +220,12 @@ func _on_grid_toggled(toggled_on: bool) -> void:
 		%Grid.text = "Visible"
 	else:
 		%Grid.text = "Hidden"
+
+
+func _on_player_desk_toggled(toggled_on: bool) -> void:
+	if toggled_on:
+		%PcDesk.text = "Visible"
+		%DeskOptions.visible = true
+	else:
+		%PcDesk.text = "Hidden"
+		%DeskOptions.visible = false
