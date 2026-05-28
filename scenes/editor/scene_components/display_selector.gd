@@ -1,6 +1,9 @@
 extends Control
 
 
+signal pc_zoom_updated(zoom:Vector2)
+
+
 @export var pc_window:Window
 
 
@@ -35,7 +38,9 @@ func update() -> void:
 func check_overlap() -> bool:
 	var pc_rect := Rect2i(pc_window.position, pc_window.size)
 	var gm_rect := Rect2i(get_window().position, get_window().size)
-	if pc_rect.intersects(gm_rect) && pc_window.visible:
+	@warning_ignore("integer_division")
+	if pc_rect.intersects(gm_rect) && pc_window.visible \
+	&& pc_rect.intersection(gm_rect).get_area() > gm_rect.get_area()/2:
 		return false
 	else:
 		return true
@@ -158,17 +163,69 @@ func _on_selection_menu_mouse_exited() -> void:
 
 func _on_confirmed() -> void:
 	if pc_window.visible:
-		pc_window.hide()
 		%SelectionMenu.hide()
-		App.notify(App.StatusState.INFO,"Stopped projecting")
-		update()
+		App.confirm("Do you want to stop projecting?","Stop projecting?",\
+		"Stop","Cancel")
+		var confirm = await App.confirmation
+		if confirm[0]:
+			pc_window.hide()
+			App.notify(App.StatusState.INFO,"Stopped projecting")
+			update()
 	else:
-		var global_pos = DisplayServer.screen_get_position(App.pc_display)
-		pc_window.set_position(global_pos)
-		pc_window.popup()
-		%SelectionMenu.hide()
-		App.notify(App.StatusState.SUCCESS,"Succesfully started projecting")
-		update()
-		#%PcOverlay.visible = true
-		#%PcGridRenderer.queue_redraw()
-		#%PcCamControl.update()
+		if Prefs.pc_zoom == Vector2.ZERO:
+			_on_options_button_pressed()
+		else:
+			var global_pos = DisplayServer.screen_get_position(App.pc_display)
+			pc_window.set_position(global_pos)
+			pc_window.popup()
+			emit_signal("pc_zoom_updated", Prefs.pc_zoom)
+			%SelectionMenu.hide()
+			App.notify(App.StatusState.SUCCESS,"Succesfully started projecting")
+			update()
+
+
+func _on_options_button_pressed() -> void:
+	%PcOptions.popup()
+
+
+func _on_pc_options_about_to_popup() -> void:
+	%Width.value = Prefs.pc_zoom.x
+	%Height.value = Prefs.pc_zoom.y
+	%Grid.button_pressed = Prefs.pc_grid
+	if Prefs.pc_desk:
+		%PcDesk.button_pressed = true
+		%DeskWidth.value = Prefs.pc_desk
+	else:
+		%PcDesk.button_pressed = false
+
+
+func _on_pc_options_confirmed() -> void:
+	var pc_view_size:Vector2
+	if %Width.value == 0 && %Height.value == 0:
+		emit_signal("pc_zoom_updated", Vector2(0,0))
+		pc_view_size = Vector2(0,0)
+	else:
+		pc_view_size = Vector2(%Width.value,%Height.value)
+	Prefs.pc_zoom = pc_view_size
+	Prefs.pc_grid = %Grid.button_pressed
+	if %PcDesk.button_pressed:
+		Prefs.pc_desk = %DeskWidth.value
+	else:
+		Prefs.pc_desk = 0
+	emit_signal("pc_zoom_updated", pc_view_size)
+
+
+func _on_grid_toggled(toggled_on: bool) -> void:
+	if toggled_on:
+		%Grid.text = "Visible"
+	else:
+		%Grid.text = "Hidden"
+
+
+func _on_player_desk_toggled(toggled_on: bool) -> void:
+	if toggled_on:
+		%PcDesk.text = "Visible"
+		%DeskOptions.visible = true
+	else:
+		%PcDesk.text = "Hidden"
+		%DeskOptions.visible = false

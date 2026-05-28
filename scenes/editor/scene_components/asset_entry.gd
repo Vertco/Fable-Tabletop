@@ -1,7 +1,7 @@
 extends Control
 
 
-signal select(node:Node)
+signal single_select(node:Node)
 signal multi_select(node:Node)
 signal open(asset:Asset) ## Open the current asset in the asset editor
 signal delete(node:Node) ## Delete the current asset
@@ -15,6 +15,7 @@ signal delete(node:Node) ## Delete the current asset
 	set(value):
 		selected = value
 		if value:
+			add_to_group("selected_asset_entries")
 			var theme_selected := StyleBoxFlat.new()
 			theme_selected.bg_color = "99999933"
 			theme_selected.border_color = "cccccc66"
@@ -29,6 +30,7 @@ signal delete(node:Node) ## Delete the current asset
 			%Focus.add_theme_stylebox_override("panel",theme_selected)
 			%Focus.show()
 		else:
+			remove_from_group("selected_asset_entries")
 			var theme_not_selected := StyleBoxFlat.new()
 			theme_not_selected.bg_color = "99999933"
 			theme_not_selected.corner_radius_top_left = 5
@@ -38,6 +40,8 @@ signal delete(node:Node) ## Delete the current asset
 			%Focus.add_theme_stylebox_override("panel",theme_not_selected)
 			if !hover:
 				%Focus.hide()
+	get:
+		return is_in_group("selected_asset_entries")
 var hover := false:
 	set(value):
 		hover = value
@@ -71,13 +75,24 @@ func update() -> Error:
 	return result
 
 
+func select() -> void:
+	selected = true
+
+
+func deselect() -> void:
+	selected = false
+
+
 func _get_drag_data(_at_position) -> Asset:
 	var icon = TextureRect.new()
 	var preview = Control.new()
+	var icon_scale := 1.0
 	var image := Image.load_from_file(data.texture)
+	if data.pps:
+		icon_scale = 50/data.pps
 	icon.texture = ImageTexture.create_from_image(image)
-	icon.position = (icon.texture.get_size() * -0.5)*App.gm_zoom
-	icon.scale = icon.scale*App.gm_zoom
+	icon.scale = (icon.scale*icon_scale)*App.gm_zoom
+	icon.position = ((icon.texture.get_size()*icon_scale) * -0.5)*App.gm_zoom
 	icon.modulate = "ffffff88"
 	preview.add_child(icon)
 	set_drag_preview(preview)
@@ -94,13 +109,13 @@ func _on_mouse_exited() -> void:
 
 func _on_gui_input(event: InputEvent) -> void:
 	if data:
-		if event.is_action_pressed("mouse_multi_select"):
+		if event.is_action_pressed("ui_multi_select"):
 			emit_signal("multi_select",self)
-		elif event.is_action_pressed("mouse_select"):
+		elif event.is_action_pressed("ui_select"):
 			if event.double_click:
 				emit_signal("open",data)
 			else:
-				emit_signal("select",self)
+				emit_signal("single_select",self)
 		elif event.is_action_pressed("mouse_alt_select"):
 			%PopupMenu.position = get_global_mouse_position()
 			%PopupMenu.popup()

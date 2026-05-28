@@ -39,9 +39,10 @@ var visible_layers: Array[int] = [1]:
 
 
 var canvas: CanvasLayer
-var gm_zoom: float
+var gm_zoom: float = 1
 var temp_files: PackedStringArray
 var pc_display: int = 99
+var recover := false
 
 
 func create_scene(title:String,_description:String="",_campaign:String="",_chapter:String="") -> Error:
@@ -69,20 +70,32 @@ func create_scene(title:String,_description:String="",_campaign:String="",_chapt
 	return result
 
 
-func create_asset(asset_name:String,path:String) -> void:
-	var image := Image.new()
-	image.load(path)
-	var imported_image := Image.new()
-	imported_image.copy_from(image)
-	var buffer := imported_image.save_webp_to_buffer()
-	var filename := current_dir+"/media/"+asset_name+".webp"
-	var new_file := FileAccess.open(filename, FileAccess.WRITE_READ)
-	new_file.store_buffer(buffer)
-	new_file.close()
-	var asset := ImageAsset.new()
-	asset.texture = current_dir+"/media/"+asset_name+".webp"
-	asset.name = asset_name
-	ResourceSaver.save(asset,current_dir+"/assets/"+asset_name+".tres")
+func create_asset(asset_name:String, path:String, pps:float = 0,\
+asset:Asset = null) -> void:
+	if asset:
+		match asset.get_global_name():
+			"ImageAsset":
+				var og_name := asset.name
+				asset.name = asset_name
+				asset.texture = path
+				if pps != 0:
+					asset.pps = pps
+				ResourceSaver.save(asset,current_dir+"/assets/"+og_name+".tres")
+	else:
+		var image := Image.new()
+		image.load(path)
+		var imported_image := Image.new()
+		imported_image.copy_from(image)
+		var buffer := imported_image.save_webp_to_buffer()
+		var filename := current_dir+"/media/"+asset_name+".webp"
+		var new_file := FileAccess.open(filename, FileAccess.WRITE_READ)
+		new_file.store_buffer(buffer)
+		new_file.close()
+		var new_asset := ImageAsset.new()
+		new_asset.texture = current_dir+"/media/"+asset_name+".webp"
+		new_asset.name = asset_name
+		new_asset.pps = pps
+		ResourceSaver.save(new_asset,current_dir+"/assets/"+asset_name+".tres")
 
 
 func pack_current() -> void:
@@ -179,7 +192,7 @@ custom_button_right:bool=false,custom_action:String="") -> void:
 	if get_viewport().get_camera_2d():
 		get_viewport().get_camera_2d().add_child(canvas)
 	else:
-		get_tree().root.add_child(canvas)
+		get_tree().root.add_child.call_deferred(canvas)
 	
 	# Reset gui_embed_subwindows to default
 	get_window().gui_embed_subwindows = ProjectSettings.get_setting("display/window/subwindows/embed_subwindows")

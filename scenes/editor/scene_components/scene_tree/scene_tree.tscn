@@ -1,0 +1,32 @@
+[gd_scene format=3 uid="uid://brlricw6shpwd"]
+
+[ext_resource type="Script" uid="uid://b0is6yvgvb1vw" path="res://scenes/editor/scene_components/scene_tree/scene_tree.gd" id="1_23n73"]
+[ext_resource type="Script" uid="uid://dgirf3smkl2ys" path="res://scenes/editor/scene_components/scene_tree/tree.gd" id="2_bc4dm"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_bc4dm"]
+
+[node name="SceneTree" type="VBoxContainer" unique_id=549113784]
+offset_right = 266.0
+offset_bottom = 338.0
+size_flags_vertical = 3
+script = ExtResource("1_23n73")
+
+[node name="Filter" type="LineEdit" parent="." unique_id=1494046442]
+layout_mode = 2
+placeholder_text = "Filter assets"
+
+[node name="Tree" type="Tree" parent="." unique_id=751688453]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_vertical = 3
+focus_behavior_recursive = 1
+theme_override_styles/panel = SubResource("StyleBoxEmpty_bc4dm")
+hide_root = true
+select_mode = 2
+scroll_hint_mode = 1
+script = ExtResource("2_bc4dm")
+
+[connection signal="text_changed" from="Filter" to="." method="filter_tree"]
+[connection signal="button_clicked" from="Tree" to="." method="_on_tree_button_clicked"]
+[connection signal="multi_selected" from="Tree" to="." method="_on_tree_multi_selected"]
+[connection signal="nothing_selected" from="Tree" to="." method="_on_tree_nothing_selected"]

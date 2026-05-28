@@ -1,0 +1,44 @@
+[gd_scene format=3 uid="uid://c3dkjqf61v3y7"]
+
+[ext_resource type="Script" uid="uid://d0k56qhwjcr4a" path="res://scenes/editor/scene_components/pc_cam_control.gd" id="1_o6djn"]
+[ext_resource type="Texture2D" uid="uid://bgefyqobj7jkg" path="res://media/icons/camera_2d.svg" id="2_41bdk"]
+[ext_resource type="Texture2D" uid="uid://dxli5mwr6dcm7" path="res://media/icons/gui_hidden.svg" id="3_geq00"]
+
+[node name="PcCamControl" type="Control" unique_id=154465383]
+layout_mode = 3
+anchors_preset = 0
+script = ExtResource("1_o6djn")
+
+[node name="PcViewHeader" type="PanelContainer" parent="." unique_id=1898913758]
+unique_name_in_owner = true
+layout_mode = 0
+offset_right = 32.0
+offset_bottom = 24.0
+
+[node name="MarginContainer" type="MarginContainer" parent="PcViewHeader" unique_id=42669696]
+layout_mode = 2
+theme_override_constants/margin_left = 3
+theme_override_constants/margin_top = 3
+theme_override_constants/margin_right = 3
+theme_override_constants/margin_bottom = 3
+
+[node name="HBoxContainer" type="HBoxContainer" parent="PcViewHeader/MarginContainer" unique_id=889227394]
+layout_mode = 2
+
+[node name="TextureRect" type="TextureRect" parent="PcViewHeader/MarginContainer/HBoxContainer" unique_id=151641195]
+layout_mode = 2
+texture = ExtResource("2_41bdk")
+stretch_mode = 5
+
+[node name="Label" type="Label" parent="PcViewHeader/MarginContainer/HBoxContainer" unique_id=535760265]
+layout_mode = 2
+text = "Players"
+
+[node name="Button" type="Button" parent="PcViewHeader/MarginContainer/HBoxContainer" unique_id=168509683]
+unique_name_in_owner = true
+layout_mode = 2
+icon = ExtResource("3_geq00")
+flat = true
+
+[connection signal="gui_input" from="PcViewHeader" to="." method="_on_pc_view_header_gui_input"]
+[connection signal="pressed" from="PcViewHeader/MarginContainer/HBoxContainer/Button" to="." method="_on_button_pressed"]
