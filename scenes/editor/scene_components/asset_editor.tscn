@@ -121,6 +121,7 @@ layout_mode = 2
 size_flags_vertical = 3
 
 [connection signal="pressed" from="Background" to="." method="close_editor"]
+[connection signal="about_to_popup" from="Background/Window" to="." method="_on_window_about_to_popup"]
 [connection signal="canceled" from="Background/Window" to="." method="close_editor"]
 [connection signal="confirmed" from="Background/Window" to="." method="_on_window_confirmed"]
 [connection signal="pressed" from="Background/Window/VBoxContainer/GridContainer/HBoxContainer/FilePicker" to="." method="_on_file_picker_pressed"]

@@ -73,7 +73,7 @@ func create_scene(title:String,_description:String="",_campaign:String="",_chapt
 func create_asset(asset_name:String, path:String, pps:float = 0,\
 asset:Asset = null) -> void:
 	if asset:
-		match asset.get_global_name():
+		match asset.get_script().get_global_name():
 			"ImageAsset":
 				var og_name := asset.name
 				asset.name = asset_name

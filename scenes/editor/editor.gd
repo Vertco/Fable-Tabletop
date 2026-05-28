@@ -44,6 +44,11 @@ func _ready() -> void:
 		fable_path = App.selected_fables[0]
 
 
+func _unhandled_input(event: InputEvent) -> void:
+	if event.is_action_released("global_save"):
+		save_fable()
+
+
 func update_cull_mask(_active_layer: int, _visible_layers: Array[int]):
 	%SceneRoot.set_canvas_cull_mask(0)
 	%SceneRoot.set_canvas_cull_mask_bit(0, true)
@@ -122,6 +127,7 @@ func save_fable() -> void: # TODO Add support for campaigns
 		DirAccess.remove_absolute("user://current/scenes/"+new_scene.title+".tres")
 		ResourceSaver.save(new_scene,"user://current/scenes/"+new_scene.title+".tres")
 	App.pack_current()
+	App.notify(App.StatusState.SUCCESS, "Sucsesfully saved!")
 
 
 func validate_fable() -> Error:
@@ -180,10 +186,9 @@ func _on_mode_selector_tab_changed(tab: int) -> void:
 
 func _on_fable_menu_id_pressed(id: int) -> void:
 	match id:
-		3:
+		4:
 			App.confirm("Save changes to this fable?","Save Changes?",\
 			"Save","Cancel")
 			var confirm = await App.confirmation
 			if confirm[0]:
 				save_fable()
-				App.notify(App.StatusState.SUCCESS, "Sucsesfully saved!")

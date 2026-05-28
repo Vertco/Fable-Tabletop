@@ -56,6 +56,7 @@ func _on_file_picker_pressed() -> void:
 func _on_image_file_dialog_file_selected(path: String) -> void:
 	%FilePath.text = path
 	%DisplayName.text = path.get_file().rsplit(".")[0]
+	Prefs.import_location = %ImageFileDialog.current_dir
 
 
 func _on_window_confirmed() -> void:
@@ -75,3 +76,7 @@ func _on_scaled_toggled(toggled_on: bool) -> void:
 		%Scaled.text = "Not scaled"
 		%PpsSpacer.visible = false
 		%PpsContainer.visible = false
+
+
+func _on_window_about_to_popup() -> void:
+	%ImageFileDialog.current_dir = Prefs.import_location

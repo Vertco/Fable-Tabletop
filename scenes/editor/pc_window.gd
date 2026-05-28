@@ -14,9 +14,10 @@ func on_prefs_updated(pref:String) -> void:
 				%PcDeskRight.visible = true
 				var pc_width := Prefs.pc_zoom.x
 				var multiplier := size.x/pc_width
-				%PcDeskLeft.size.x = Prefs.pc_desk*multiplier
-				%PcDeskRight.size.x = Prefs.pc_desk*multiplier
-				%PcDeskRight.position.x = size.x - Prefs.pc_desk*multiplier
+				%PcDeskLeft.size = Vector2(Prefs.pc_desk*multiplier, size.y)
+				%PcDeskLeft.position = Vector2.ZERO
+				%PcDeskRight.size = Vector2(Prefs.pc_desk*multiplier, size.y)
+				%PcDeskRight.position = Vector2(size.x - Prefs.pc_desk*multiplier,0)
 			else:
 				%PcDeskLeft.visible = false
 				%PcDeskRight.visible = false

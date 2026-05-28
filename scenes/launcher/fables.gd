@@ -201,7 +201,7 @@ func _on_create_pressed() -> void:
 
 
 func _on_select_folder_pressed() -> void:
-	%fablesBrowser.show()
+	%FablesBrowser.show()
 
 
 func _on_sort_option_item_selected(_index: int) -> void:

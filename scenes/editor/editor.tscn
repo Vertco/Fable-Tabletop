@@ -353,20 +353,11 @@ camera = NodePath("../PcCam")
 [node name="PcDeskLeft" type="Panel" parent="PcWindow" unique_id=1975900438]
 unique_name_in_owner = true
 material = SubResource("ShaderMaterial_b8rj3")
-anchors_preset = 9
-anchor_bottom = 1.0
-grow_vertical = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_svbvx")
 
 [node name="PcDeskRight" type="Panel" parent="PcWindow" unique_id=1054832019]
 unique_name_in_owner = true
 material = SubResource("ShaderMaterial_r6jol")
-anchors_preset = 11
-anchor_left = 1.0
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 0
-grow_vertical = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_b8rj3")
 
 [node name="PcCover" type="TextureRect" parent="PcWindow" unique_id=1601752774]

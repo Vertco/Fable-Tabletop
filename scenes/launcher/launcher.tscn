@@ -567,6 +567,7 @@ tab_0/title = "Scene"
 tab_0/icon = ExtResource("22_7hque")
 tab_1/title = "Campaign"
 tab_1/icon = ExtResource("14_nqry0")
+tab_1/disabled = true
 
 [node name="HBoxContainer" type="HBoxContainer" parent="PopupBackground/CreateNew/Map/VBoxContainer" unique_id=434463199]
 layout_mode = 2

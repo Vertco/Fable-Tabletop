@@ -125,35 +125,46 @@ func add_tree_vis_button(entry: TreeItem, id: int, color:Color, visibility: bool
 
 
 func _on_tree_button_clicked(item: TreeItem, _column: int, id: int, _mouse_button_index: int) -> void:
-	var metadata:Node = item.get_metadata(0)
+	if %Tree.suppress_selection:
+		var selected = %Tree.get_next_selected(null)
+		while selected:
+			selected.deselect(0)
+			selected = %Tree.get_next_selected(selected)
+		for old_item in %Tree.previous_selection:
+			old_item.select(0)
+		%Tree.suppress_selection = false
+	var metadata: Node = item.get_metadata(0)
 	match metadata.type:
 		"ImageAsset":
 			match id:
 				0:
 					await metadata.edit("lock")
-					item.set_button(0,0,get_locked_icon(metadata.locked))
-					item.set_selectable(0,!metadata.locked)
+					item.set_button(0, 0, get_locked_icon(metadata.locked))
+					item.set_selectable(0, !metadata.locked)
 				1:
 					await metadata.edit("gm_vis")
-					item.set_button(0,1,get_vis_icon(metadata.gm_vis))
+					item.set_button(0, 1, get_vis_icon(metadata.gm_vis))
 				2:
 					metadata.edit("player_vis")
-					item.set_button(0,2,get_vis_icon(metadata.player_vis))
+					item.set_button(0, 2, get_vis_icon(metadata.player_vis))
 		"Layer":
 			match id:
 				0:
 					await metadata.edit("active")
-					item.set_button(0,0,get_active_icon(metadata.active))
-					item.set_button_disabled(0,0,metadata.active)
+					item.set_button(0, 0, get_active_icon(metadata.active))
+					item.set_button_disabled(0, 0, metadata.active)
 				1:
 					await metadata.edit("gm_vis")
-					item.set_button(0,1,get_vis_icon(metadata.gm_vis))
+					item.set_button(0, 1, get_vis_icon(metadata.gm_vis))
 				2:
 					metadata.edit("player_vis")
-					item.set_button(0,2,get_vis_icon(metadata.player_vis))
+					item.set_button(0, 2, get_vis_icon(metadata.player_vis))
 
 
 func _on_tree_multi_selected(item: TreeItem, column: int, selected: bool) -> void:
+	if %Tree.suppress_selection:
+		return
+	
 	if item.get_text(0) == "Add Layer":
 		item.deselect(0)
 		emit_signal("new_scene_pressed")

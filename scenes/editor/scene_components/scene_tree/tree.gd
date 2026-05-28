@@ -1,16 +1,38 @@
 extends Tree
 
 
-func _get_drag_data(_at_position: Vector2) -> Variant:
-	var items: Array[TreeItem] = []
-	var selected_item: TreeItem = get_next_selected(null)
-	var preview := VBoxContainer.new()
-	while selected_item:
-		if get_root() != selected_item.get_parent():
-			items.append(selected_item)
-		selected_item = get_next_selected(selected_item)
-	set_drag_preview(preview)
-	return items
+var suppress_selection := false
+var previous_selection: Array[TreeItem] = []
+
+
+func _gui_input(event: InputEvent) -> void:
+	if event is InputEventMouseButton:
+		if event.pressed and event.button_index == MOUSE_BUTTON_LEFT:
+			suppress_selection = false
+			var item := get_item_at_position(event.position)
+			if item:
+				var button_id := get_button_id_at_position(event.position)
+				if button_id != -1:
+					suppress_selection = true
+					previous_selection.clear()
+					var selected := get_next_selected(null)
+					while selected:
+						previous_selection.append(selected)
+						selected = get_next_selected(selected)
+
+
+func _on_item_selected() -> void:
+	_validate_selection()
+
+
+func _validate_selection() -> void:
+	var selected := get_next_selected(null)
+	while selected:
+		var metadata: Node = selected.get_metadata(0)
+		# if item is disabled or not selectable → immediately undo it
+		if not selected.is_selectable(0) or (metadata and metadata.get("locked") == true):
+			selected.deselect(0)
+		selected = get_next_selected(selected)
 
 
 func _can_drop_data(at_position: Vector2, data: Variant) -> bool:

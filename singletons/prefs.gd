@@ -30,6 +30,13 @@ var prefs_file := "user://preferences.tres"
 			if initialized:
 				save_prefs({"assets_location": value})
 			emit_signal("prefs_updated","assets_location")
+@export_global_dir var import_location: String = "user://assets":
+	set(value):
+		if value != import_location:
+			import_location = value
+			if initialized:
+				save_prefs({"import_location": value})
+			emit_signal("prefs_updated","import_location")
 @export var pc_zoom:Vector2:
 	set(value):
 		if value != pc_zoom:
@@ -37,7 +44,7 @@ var prefs_file := "user://preferences.tres"
 			if initialized:
 				save_prefs({"pc_zoom": value})
 			emit_signal("prefs_updated","pc_zoom")
-@export var pc_grid:bool:
+@export var pc_grid := true:
 	set(value):
 		if value != pc_grid:
 			pc_grid = value
