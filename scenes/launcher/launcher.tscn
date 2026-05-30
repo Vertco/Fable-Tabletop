@@ -92,7 +92,7 @@ tab_count = 2
 tab_0/title = "Fables"
 tab_0/icon = ExtResource("3_vcmmt")
 tab_1/title = "Asset Library"
-tab_1/tooltip = "Coming soon!"
+tab_1/tooltip = "Coming soon™!"
 tab_1/icon = ExtResource("4_vcmmt")
 tab_1/disabled = true
 script = ExtResource("5_b28c5")
@@ -104,7 +104,7 @@ alignment = 2
 
 [node name="Button2" type="Button" parent="VBoxContainer/MarginContainer/HBoxContainer/HBoxContainer2" unique_id=395238195]
 layout_mode = 2
-tooltip_text = "Coming soon!"
+tooltip_text = "Coming soon™!"
 disabled = true
 text = "Settings"
 icon = ExtResource("3_33t3q")
@@ -152,6 +152,7 @@ icon = ExtResource("3_q5s05")
 
 [node name="Import" type="Button" parent="VBoxContainer/MarginContainer2/PanelContainer/MarginContainer/Fables/VBoxContainer/HBoxContainer2" unique_id=1917145955]
 unique_name_in_owner = true
+visible = false
 layout_mode = 2
 tooltip_text = "Coming soon!"
 disabled = true
@@ -285,6 +286,7 @@ icon = ExtResource("5_33t3q")
 
 [node name="Play" type="Button" parent="VBoxContainer/MarginContainer2/PanelContainer/MarginContainer/Fables/VBoxContainer/HBoxContainer/VBoxContainer/VBoxContainer" unique_id=961419483]
 unique_name_in_owner = true
+visible = false
 layout_mode = 2
 tooltip_text = "Coming soon!"
 disabled = true
@@ -294,6 +296,7 @@ icon = ExtResource("6_qetby")
 
 [node name="Rename" type="Button" parent="VBoxContainer/MarginContainer2/PanelContainer/MarginContainer/Fables/VBoxContainer/HBoxContainer/VBoxContainer/VBoxContainer" unique_id=460242205]
 unique_name_in_owner = true
+visible = false
 layout_mode = 2
 disabled = true
 text = "Rename"
@@ -301,6 +304,7 @@ icon = ExtResource("7_ojsb5")
 
 [node name="Tags" type="Button" parent="VBoxContainer/MarginContainer2/PanelContainer/MarginContainer/Fables/VBoxContainer/HBoxContainer/VBoxContainer/VBoxContainer" unique_id=1500226216]
 unique_name_in_owner = true
+visible = false
 layout_mode = 2
 disabled = true
 text = "Manage Tags"

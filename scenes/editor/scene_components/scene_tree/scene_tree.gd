@@ -60,10 +60,10 @@ func update() -> void:
 					tree_asset.select(0)
 				else:
 					tree_asset.deselect(0)
-		var add_button:TreeItem = tree.create_item(root)
-		add_button.set_text(0,"Add Layer")
-		add_button.set_icon(0,preload("uid://del1s3wlfw7fg"))
-		add_button.set_metadata(0,{"type":null})
+		#var add_button:TreeItem = tree.create_item(root)
+		#add_button.set_text(0,"Add Layer")
+		#add_button.set_icon(0,preload("uid://del1s3wlfw7fg"))
+		#add_button.set_metadata(0,{"type":null})
 
 
 func filter_tree(filter:String) -> void:

@@ -105,6 +105,7 @@ popup/item_6/disabled = true
 
 [node name="ModeSelector" type="TabBar" parent="VBoxContainer/HBoxContainer" unique_id=1313093896]
 unique_name_in_owner = true
+visible = false
 custom_minimum_size = Vector2(200, 0)
 layout_mode = 2
 size_flags_horizontal = 6
@@ -116,6 +117,10 @@ tab_0/icon = ExtResource("2_14mad")
 tab_1/title = "Play"
 tab_1/icon = ExtResource("3_i0iqq")
 tab_1/disabled = true
+
+[node name="Control" type="Control" parent="VBoxContainer/HBoxContainer" unique_id=1056846056]
+layout_mode = 2
+size_flags_horizontal = 3
 
 [node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/HBoxContainer" unique_id=954651890]
 custom_minimum_size = Vector2(200, 0)
