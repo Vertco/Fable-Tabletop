@@ -67,7 +67,7 @@ func update_selector() -> void:
 	for display in displays:
 		var display_button:Button = Button.new()
 		var pos: Vector2 = Vector2(DisplayServer.screen_get_position(display)) - displays_rect.position
-		var display_size: Vector2 = Vector2(DisplayServer.screen_get_size(display))
+		var display_size: Vector2 = Vector2(DisplayServer.screen_get_size(display)*int(DisplayServer.screen_get_scale(display)))
 		display_button.position = pos * preview_scale + offset
 		display_button.size = display_size * preview_scale
 		display_button.text = str(display)
@@ -103,7 +103,7 @@ func update_preview() -> void:
 		for display in displays:
 			var display_preview: Panel = Panel.new()
 			var pos: Vector2 = Vector2(DisplayServer.screen_get_position(display)) - displays_rect.position
-			var display_size: Vector2 = Vector2(DisplayServer.screen_get_size(display))
+			var display_size: Vector2 = Vector2(DisplayServer.screen_get_size(display)*int(DisplayServer.screen_get_scale(display)))
 			display_preview.position = pos * preview_scale + offset
 			display_preview.size = display_size * preview_scale
 			display_preview.editor_description = str(display)
@@ -175,8 +175,10 @@ func _on_confirmed() -> void:
 		if Prefs.pc_zoom == Vector2.ZERO:
 			_on_options_button_pressed()
 		else:
-			var global_pos = DisplayServer.screen_get_position(App.pc_display)
-			pc_window.set_position(global_pos)
+			var global_pos:Vector2i = DisplayServer.screen_get_position(App.pc_display)
+			var display_size:Vector2i = Vector2i(DisplayServer.screen_get_size(App.pc_display)/2.0)
+			var center = global_pos + display_size
+			pc_window.set_position(center)
 			pc_window.popup()
 			emit_signal("pc_zoom_updated", Prefs.pc_zoom)
 			%SelectionMenu.hide()

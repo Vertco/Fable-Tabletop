@@ -3,6 +3,8 @@ extends Node2D
 
 @export var camera:Camera2D
 @export var cell_size:int = 50
+@export var dashed:bool = true
+@export_range(0.0, 1.0) var alpha_override:float = 0.0
 
 
 func _draw():
@@ -24,20 +26,25 @@ func _draw():
 		)
 		
 		# Calculate line color
-		var base_color := Color("#00000080")
+		var alpha:float
+		if alpha_override:
+			alpha = alpha_override
+		else:
+			alpha = 0.6
+		var base_color := Color(0,0,0,alpha)
 		var min_zoom := 0.17
 		var max_zoom := 0.3
 		var zoom_factor: float = clamp(
 			(zoom.x - min_zoom) / (max_zoom - min_zoom),
 			0.0,
-			0.6
+			alpha
 		)
 		var normal_color := base_color
 		normal_color.a *= zoom_factor
 		
 		# Calculate the dash size based on the zoom level
 		var dash_size:float
-		if zoom.x > 0.5:
+		if dashed and zoom.x > 0.5:
 			dash_size = 5 / zoom.x
 		
 		# Calculate the range of lines to draw

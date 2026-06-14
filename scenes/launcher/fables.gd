@@ -14,7 +14,8 @@ func _ready() -> void:
 	if Prefs.fables_location:
 		load_fables()
 	else:
-		%FablesBrowser.popup()
+		%InitializePopup.show()
+		%InitializeWindow.popup()
 	check_recovery()
 
 
@@ -210,6 +211,8 @@ func _on_sort_option_item_selected(_index: int) -> void:
 
 func _on_campaigns_browser_dir_selected(dir: String) -> void:
 	Prefs.fables_location = dir
+	%InitializePopup.hide()
+	%InitializeWindow.hide()
 	load_fables()
 
 
@@ -239,3 +242,7 @@ func _on_edit_pressed() -> void:
 func _on_scroll_container_gui_input(event: InputEvent) -> void:
 	if event.is_action_pressed("ui_select"):
 		deselect()
+
+
+func _on_init_label_meta_clicked(meta: Variant) -> void:
+	OS.shell_open(str(meta))

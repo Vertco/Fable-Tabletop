@@ -354,6 +354,8 @@ unique_name_in_owner = true
 unique_name_in_owner = true
 visibility_layer = 1047552
 camera = NodePath("../PcCam")
+dashed = false
+alpha_override = 0.8
 
 [node name="PcDeskLeft" type="Panel" parent="PcWindow" unique_id=1975900438]
 unique_name_in_owner = true

@@ -35,6 +35,7 @@ window/size/viewport_height=720
 window/size/initial_position_type=4
 window/stretch/aspect="ignore"
 window/vsync/vsync_mode=2
+window/vsync/vsync_mode.linuxbsd=0
 
 [file_customization]
 

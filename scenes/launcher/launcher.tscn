@@ -44,6 +44,14 @@ shader_parameter/blur_amount = 2.0000001899999997
 shader_parameter/mix_amount = 0.50000002375
 shader_parameter/color_over = Color(0, 0, 0, 1)
 
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_7hque"]
+shader = ExtResource("13_ojsb5")
+shader_parameter/blur_amount = 2.0000001899999997
+shader_parameter/mix_amount = 0.2000000095
+shader_parameter/color_over = Color(0, 0, 0, 1)
+
+[sub_resource type="PlaceholderTexture2D" id="PlaceholderTexture2D_7hque"]
+
 [node name="Launcher" type="Control" unique_id=15259096]
 custom_minimum_size = Vector2(480, 360)
 layout_mode = 3
@@ -603,6 +611,68 @@ size_flags_horizontal = 3
 backspace_deletes_composite_character_enabled = true
 caret_blink = true
 
+[node name="InitializePopup" type="Panel" parent="." unique_id=1147095322]
+unique_name_in_owner = true
+visible = false
+material = SubResource("ShaderMaterial_7hque")
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="InitializeWindow" type="Window" parent="InitializePopup" unique_id=1701372820]
+unique_name_in_owner = true
+own_world_3d = true
+oversampling_override = 1.0
+title = "Initial setup"
+initial_position = 2
+size = Vector2i(400, 230)
+visible = false
+theme_override_icons/close = SubResource("PlaceholderTexture2D_7hque")
+
+[node name="MarginContainer" type="MarginContainer" parent="InitializePopup/InitializeWindow" unique_id=1748582284]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 5
+theme_override_constants/margin_top = 5
+theme_override_constants/margin_right = 5
+theme_override_constants/margin_bottom = 5
+
+[node name="VBoxContainer" type="VBoxContainer" parent="InitializePopup/InitializeWindow/MarginContainer" unique_id=577275694]
+layout_mode = 2
+
+[node name="RichTextLabel" type="RichTextLabel" parent="InitializePopup/InitializeWindow/MarginContainer/VBoxContainer" unique_id=55154410]
+layout_mode = 2
+bbcode_enabled = true
+text = "[center][b]Welcome to Fable Tabletop![/b]
+[hr]
+[p]It looks like this is your first time opening this application, so you'll need to select a folder where you'll save all your Fables."
+fit_content = true
+
+[node name="MarginContainer" type="MarginContainer" parent="InitializePopup/InitializeWindow/MarginContainer/VBoxContainer" unique_id=291996973]
+layout_mode = 2
+theme_override_constants/margin_left = 5
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 5
+theme_override_constants/margin_bottom = 5
+
+[node name="Button" type="Button" parent="InitializePopup/InitializeWindow/MarginContainer/VBoxContainer/MarginContainer" unique_id=562416153]
+layout_mode = 2
+size_flags_horizontal = 4
+text = "Select Folder"
+icon = ExtResource("4_c2247")
+
+[node name="InitLabel" type="RichTextLabel" parent="InitializePopup/InitializeWindow/MarginContainer/VBoxContainer" unique_id=1826561171]
+layout_mode = 2
+bbcode_enabled = true
+text = "You can find more documentation about the functionality of this application [hint=\"Fable Tabletop Wiki\"][url=https://github.com/Vertco/Fable-Tabletop/wiki]here[/url][/hint]."
+fit_content = true
+
 [connection signal="tab_changed" from="VBoxContainer/MarginContainer/HBoxContainer/MenuSelector" to="VBoxContainer/MarginContainer/HBoxContainer/MenuSelector" method="_on_tab_changed"]
 [connection signal="pressed" from="VBoxContainer/MarginContainer2/PanelContainer/MarginContainer/Fables/VBoxContainer/HBoxContainer2/Reload" to="VBoxContainer/MarginContainer2/PanelContainer/MarginContainer/Fables" method="_on_reload_pressed"]
 [connection signal="pressed" from="VBoxContainer/MarginContainer2/PanelContainer/MarginContainer/Fables/VBoxContainer/HBoxContainer2/Create" to="VBoxContainer/MarginContainer2/PanelContainer/MarginContainer/Fables" method="_on_create_pressed"]
@@ -618,3 +688,5 @@ caret_blink = true
 [connection signal="pressed" from="VBoxContainer/MarginContainer2/PanelContainer/MarginContainer/AssetLibrary/VBoxContainer/HBoxContainer/VBoxContainer/Donate" to="VBoxContainer/MarginContainer2/PanelContainer/MarginContainer/AssetLibrary" method="_on_donate_pressed"]
 [connection signal="canceled" from="PopupBackground/CreateNew" to="PopupBackground/CreateNew" method="_on_canceled"]
 [connection signal="confirmed" from="PopupBackground/CreateNew" to="PopupBackground/CreateNew" method="_on_confirmed"]
+[connection signal="pressed" from="InitializePopup/InitializeWindow/MarginContainer/VBoxContainer/MarginContainer/Button" to="VBoxContainer/MarginContainer2/PanelContainer/MarginContainer/Fables" method="_on_select_folder_pressed"]
+[connection signal="meta_clicked" from="InitializePopup/InitializeWindow/MarginContainer/VBoxContainer/InitLabel" to="VBoxContainer/MarginContainer2/PanelContainer/MarginContainer/Fables" method="_on_init_label_meta_clicked"]
